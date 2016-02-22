@@ -2,11 +2,19 @@ package com.cpsc441.project.dutchblitz;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.net.*;
 
 public class MainActivity extends ActionBarActivity {
+
+    DatagramSocket sock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +43,16 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void login(View view) {
+        String user = ((EditText) findViewById(R.id.userText)).getText().toString();
+        String pass = ((EditText) findViewById(R.id.passText)).getText().toString();
+
+        (new LoginTask(getApplicationContext())).execute(user, pass);
+    }
+
+    public void quit(View view) {
+        finish();
     }
 }
