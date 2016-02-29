@@ -14,8 +14,10 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class LoginTask extends AsyncTask<String, Void, String> {
-    Context appCon = null;
-    DatagramSocket sock = null;
+    final int PACKET_SIZE = 64;
+
+    private Context appCon = null;
+    private DatagramSocket sock = null;
 
     public LoginTask(Context con) {
         appCon = con;
@@ -43,6 +45,8 @@ public class LoginTask extends AsyncTask<String, Void, String> {
             DatagramPacket pack = new DatagramPacket(outBuff, outBuff.length, InetAddress.getByName("192.168.1.109"), 9876);
             sock.send(pack);
 
+            byte[] inBuff = new byte[PACKET_SIZE];
+            pack = new DatagramPacket(inBuff, inBuff.length);
             sock.receive(pack);
             resp = new String(pack.getData());
         }

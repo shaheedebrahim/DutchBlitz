@@ -5,7 +5,7 @@ import java.nio.charset.*;
 import java.nio.channels.*;
 
 public class Server {
-    final static int BUFF_LENGTH = 64;
+    final static int PACKET_SIZE = 64;
     
     private static DatagramChannel channel = null;
     private static Charset charset = Charset.forName( "us-ascii" );  
@@ -18,13 +18,13 @@ public class Server {
         InetSocketAddress isa = new InetSocketAddress(9876);
         channel.socket().bind(isa);
         
-        byte[] inBuff = new byte[BUFF_LENGTH];
-        DatagramPacket pack = new DatagramPacket(inBuff, BUFF_LENGTH);
+        byte[] inBuff = new byte[PACKET_SIZE];
+        DatagramPacket pack = new DatagramPacket(inBuff, PACKET_SIZE);
         
         String in = "";
         while (true) {
-            inBuffer = ByteBuffer.allocateDirect(BUFF_LENGTH);
-			cBuffer = CharBuffer.allocate(BUFF_LENGTH);
+            inBuffer = ByteBuffer.allocateDirect(PACKET_SIZE);
+			cBuffer = CharBuffer.allocate(PACKET_SIZE);
             
             SocketAddress client = channel.receive(inBuffer);
             
@@ -37,26 +37,17 @@ public class Server {
             
             System.out.println("Client: " + in);
             
-            String resp;
-            byte[] rBytes;
-            if (fields.length == 2 && fields[0].equals("admin") && fields[1].equals("admin")) {
+            String resp = "";
+            if (fields.length == 2 && fields[0].equals("admin") && fields[1].equals("admin"))
                 resp = "success";
-                rBytes = resp.getBytes();
-                inBuffer = ByteBuffer.allocateDirect(rBytes.length);
-                inBuffer.put(rBytes);
-                inBuffer.flip();
-                
-                channel.send(inBuffer, client);
-            }
-            else {
-                resp = "failure";
-                rBytes = resp.getBytes();
-                inBuffer = ByteBuffer.allocateDirect(rBytes.length);
-                inBuffer.put(rBytes);
-                inBuffer.flip();
-                
-                channel.send(inBuffer, client);
-            }
+            else resp = "failure";
+            
+            byte[] rBytes = resp.getBytes();
+            inBuffer = ByteBuffer.allocateDirect(rBytes.length);
+            inBuffer.put(rBytes);
+            inBuffer.flip();
+            
+            channel.send(inBuffer, client);
         }
     }
 }
