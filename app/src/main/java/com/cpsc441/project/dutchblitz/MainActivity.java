@@ -1,5 +1,6 @@
 package com.cpsc441.project.dutchblitz;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +13,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.net.*;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     DatagramSocket sock;
 
@@ -43,13 +44,6 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void login(View view) {
-        String user = ((EditText) findViewById(R.id.userText)).getText().toString();
-        String pass = ((EditText) findViewById(R.id.passText)).getText().toString();
-
-        (new LoginTask(getApplicationContext())).execute(user, pass);
     }
 
     public void quit(View view) {

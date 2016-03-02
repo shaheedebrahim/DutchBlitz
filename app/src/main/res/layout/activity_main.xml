@@ -4,15 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:background="#323232">
-
-    <TextView android:text="Login" android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#bfbfbf"
-        android:id="@+id/textView"
-        android:textSize="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+    android:background="#34495e">
 
     <ImageView
         android:layout_width="200dp"
@@ -20,57 +12,39 @@
         android:id="@+id/imageView"
         android:paddingTop="30dp"
         android:src="@mipmap/logotest"
-        android:layout_below="@+id/textView"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:id="@+id/userText"
-        android:hint="Username"
-        android:focusable="true"
-        android:textColorHighlight="#ffffff"
-        android:textColorHint="#808080"
-        android:layout_marginTop="46dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Dutch Blitz"
+        android:id="@+id/textView"
         android:layout_below="@+id/imageView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/passText"
-        android:layout_below="@+id/userText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/userText"
-        android:layout_alignEnd="@+id/userText"
-        android:textColorHint="#808080"
-        android:hint="Password" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:textColor="#FFFFFF"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/logButton"
-        android:onClick="login"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/textView"
-        android:layout_toStartOf="@+id/textView" />
+        android:text="New Button"
+        android:id="@+id/button"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/textView"
+        android:background="@color/primary_dark_material_dark"
+        android:layout_alignStart="@+id/button2"
+        android:layout_alignEnd="@+id/textView" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Quit"
-        android:id="@+id/canButton"
-        android:onClick="quit"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
+        android:text="New Button"
+        android:id="@+id/button2"
+        android:layout_marginTop="34dp"
+        android:layout_below="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:background="@color/primary_dark_material_dark"/>
 
 </RelativeLayout>
