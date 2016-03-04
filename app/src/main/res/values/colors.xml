@@ -14,4 +14,6 @@
     <color name="primary_text_material_light">#040000</color>
     <color name="secondary_text_material_light">#060000</color>
 
+    <color name="white">#ffffff</color>
+
 </resources>

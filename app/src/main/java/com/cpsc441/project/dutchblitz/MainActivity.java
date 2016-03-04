@@ -1,17 +1,12 @@
 package com.cpsc441.project.dutchblitz;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import java.io.IOException;
-import java.net.*;
+import java.net.DatagramSocket;
 
 public class MainActivity extends Activity {
 
