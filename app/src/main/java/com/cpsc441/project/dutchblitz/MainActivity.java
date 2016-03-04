@@ -1,6 +1,7 @@
 package com.cpsc441.project.dutchblitz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +40,11 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void createLogin(View view) {
+        Intent intent = new Intent(this, CreateLogin.class);
+        startActivity(intent);
     }
 
     public void quit(View view) {

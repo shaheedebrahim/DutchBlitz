@@ -29,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create Account / Login"
+        android:onClick="createLogin"
         android:id="@+id/button"
         android:background="@color/primary_dark_material_dark"
         android:layout_below="@+id/imageView"
