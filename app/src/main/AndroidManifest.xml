@@ -19,8 +19,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CreateLogin"
-            android:label="@string/title_activity_create_login"
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
