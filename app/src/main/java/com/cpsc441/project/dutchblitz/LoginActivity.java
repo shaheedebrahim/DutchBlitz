@@ -48,11 +48,15 @@ public class LoginActivity extends Activity {
 
     public void loginClicked() {
 
+        String username = usernameText.getText().toString();
+        String password = passwordText.getText().toString();
+
+
+        (new LoginTask(getApplicationContext())).execute(username, password);
+
     }
 
     public void createClicked() {
-        //String username = usernameText.getText().toString();
-        //String password = passwordText.getText().toString();
 
 
     }
