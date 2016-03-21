@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -46,13 +47,13 @@ public class LoginActivity extends Activity {
         });
     }
 
-    public void loginClicked() {
+    public void loginClicked(View view) {
 
         String username = usernameText.getText().toString();
         String password = passwordText.getText().toString();
 
 
-        //(new LoginTask(getApplicationContext())).execute(username, password);
+        new LoginTask(getApplicationContext()).execute(username, password);
 
     }
 
