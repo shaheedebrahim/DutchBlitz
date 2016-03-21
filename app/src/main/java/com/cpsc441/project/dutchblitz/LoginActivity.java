@@ -52,7 +52,7 @@ public class LoginActivity extends Activity {
         String password = passwordText.getText().toString();
 
 
-        (new LoginTask(getApplicationContext())).execute(username, password);
+        //(new LoginTask(getApplicationContext())).execute(username, password);
 
     }
 
