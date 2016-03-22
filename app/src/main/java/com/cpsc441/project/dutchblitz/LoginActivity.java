@@ -1,6 +1,7 @@
 package com.cpsc441.project.dutchblitz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -52,13 +53,15 @@ public class LoginActivity extends Activity {
         String username = usernameText.getText().toString();
         String password = passwordText.getText().toString();
 
-
         new LoginTask(getApplicationContext()).execute(username, password);
+
 
     }
 
-    public void createClicked() {
+    public void createClicked(View view) {
 
+        Intent intent = new Intent(this, PlayerHomeActivity.class);
+        startActivity(intent);
 
     }
 }

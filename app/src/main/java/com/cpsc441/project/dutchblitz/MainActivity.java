@@ -47,6 +47,11 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    public void createPlayerList(View view) {
+        Intent intent = new Intent(this, PlayerListActivity.class);
+        startActivity(intent);
+    }
+
     public void quit(View view) {
         finish();
     }

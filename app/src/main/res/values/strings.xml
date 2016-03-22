@@ -7,4 +7,11 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="accountCreate">Create Account</string>
     <string name="loginText">Log-in</string>
+    <string name="title_activity_player_list">PlayerListActivity</string>
+    <string name="title_activity_player_home">PlayerHomeActivity</string>
+    <string name="create_room_text">Create Room</string>
+    <string name="chat_text">Chat</string>
+    <string name="join_room_text">Join Room</string>
+    <string name="observe_text">Observe</string>
+
 </resources>
