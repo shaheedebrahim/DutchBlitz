@@ -50,6 +50,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cpsc441.project.dutchblitz.MainActivity" />
         </activity>
+        <activity
+            android:name=".GameScreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_game_screen"
+            android:parentActivityName=".PlayerHomeActivity"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cpsc441.project.dutchblitz.PlayerHomeActivity" />
+        </activity>
     </application>
 
 </manifest>

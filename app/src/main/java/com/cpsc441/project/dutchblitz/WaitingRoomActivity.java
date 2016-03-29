@@ -1,6 +1,7 @@
 package com.cpsc441.project.dutchblitz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -36,5 +37,10 @@ public class WaitingRoomActivity extends Activity {
     public void createInviteFriendsFrag(View view) {
         InviteFriendFragment frag = new InviteFriendFragment();
         frag.show(getFragmentManager(), "InvFrag");
+    }
+
+    public void startGameActivity(View view) {
+        Intent i = new Intent(this, GameScreenActivity.class);
+        startActivity(i);
     }
 }

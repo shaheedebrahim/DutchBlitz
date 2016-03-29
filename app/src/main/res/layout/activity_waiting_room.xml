@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:text="@string/start_text"
         android:id="@+id/startButton"
+        android:onClick="startGameActivity"
         android:background="@color/secondary"
         android:layout_alignTop="@+id/inviteButton"
         android:layout_alignParentStart="true" />
