@@ -2,6 +2,14 @@ import java.sql.*;
 import java.sql.SQLException;
 
 public class DatabaseDriver{
+
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://localhost/";
+
+    //  Database credentials
+    static final String USER = "username";
+    static final String PASS = "password";
+
     public static void main (String[] args){
         Connectio conn = null;
         Statement stmt = null;

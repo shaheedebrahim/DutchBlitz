@@ -2,6 +2,7 @@ package com.cpsc441.project.dutchblitz;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -29,6 +30,15 @@ public class PlayerHomeActivity extends Activity {
         statisticNames.add("Games Won");
         statisticNames.add("Games Lost");
         statisticNames.add("Disconnections");
+    }
+
+    public void displayCreateFragment(View view) {
+        showDialog();
+    }
+
+    private void showDialog() {
+        CreateRoomDialogFragment dialogFrag = new CreateRoomDialogFragment();
+        dialogFrag.show(getFragmentManager(), "Diag");
     }
 
 }
