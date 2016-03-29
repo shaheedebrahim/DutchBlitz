@@ -9,6 +9,7 @@
     <string name="loginText">Log-in</string>
     <string name="title_activity_player_list">PlayerListActivity</string>
     <string name="title_activity_player_home">PlayerHomeActivity</string>
+    <string name="title_activity_waiting_room">WaitingRoomActivity</string>
     <string name="create_room_text">Create Room</string>
     <string name="chat_text">Chat</string>
     <string name="join_room_text">Join Room</string>
@@ -22,6 +23,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="cancel">cancel</string>
     <string name="create">create</string>
+    <string name="title_activity_main2">Main2Activity</string>
 
 
 </resources>

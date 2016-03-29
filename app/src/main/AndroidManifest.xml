@@ -42,6 +42,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cpsc441.project.dutchblitz.MainActivity" />
         </activity>
+        <activity
+            android:name=".WaitingRoomActivity"
+            android:label="@string/title_activity_waiting_room"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cpsc441.project.dutchblitz.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
