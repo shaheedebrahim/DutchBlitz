@@ -13,6 +13,13 @@ import java.util.*;
 
 public class Server {
     public static int BUFFERSIZE = 32;
+
+    private DatabaseDriver db;
+
+    public Server() {
+        db = new DatabaseDriver();
+    }
+
     public static void main(String args[]) throws Exception
     {
         if (args.length != 1)
@@ -74,7 +81,7 @@ public class Server {
 
                         SocketChannel cchannel = ((ServerSocketChannel)key.channel()).accept();
                         cchannel.configureBlocking(false);
-                        System.out.println("Accept conncection from " + cchannel.socket().toString());
+                        System.out.println("Accept connection from " + cchannel.socket().toString());
 
                         // Register the new connection for read operation
                         cchannel.register(selector, SelectionKey.OP_READ);
@@ -102,20 +109,43 @@ public class Server {
                             inBuffer.flip();      // make buffer available  
                             decoder.decode(inBuffer, cBuffer, false);
                             cBuffer.flip();
-                            line = cBuffer.toString() + "\n";
-                            System.out.print("Client: " + line);
+                            line = cBuffer.toString();
+                            String[] split = line.split("\n");
+                            System.out.println("Header: " + split[0]);
+                            System.out.println("Username: " + split[1]);
+                            System.out.println("Password: " + split[2]);
+
+                            int[] fields = parseHeader(Long.parseLong(split[0]));
+                            System.out.printf("%d %d %d\n", fields[0], fields[1], fields[2]);
+
+                            switch (fields) {
+                                case 0:
+                                    // login
+                                    break;
+                                case 1:
+                                    // join/leave
+                                    break;
+                                case 2:
+                                    // chat
+                                    break;
+                                case 3:
+                                    // create account
+                                    break;
+                                case 4:
+                                    // game update
+                                    break;
+                                case 5:
+                                    // status request
+                                    break;
+                                default:
+                                    break;
+                            }
 
                             // Echo the message back
                             inBuffer = ByteBuffer.allocateDirect(BUFFERSIZE);
                             inBuffer.put("Success\n".getBytes());
                             inBuffer.flip();
                             bytesSent = cchannel.write(inBuffer);
-                            /*if (bytesSent != bytesRecv)
-                            {
-                                System.out.println("write() error, or connection closed");
-                                key.cancel();  // deregister the socket
-                                continue;
-                            }*/
 
                             if (line.equals("terminate\n"))
                                 terminated = true;
@@ -140,5 +170,18 @@ public class Server {
             else if (key.isValid())
                 ((SocketChannel)key.channel()).socket().close();
         }
+    }
+
+    private static int[] parseHeader(long h) {
+        int len = Long.SIZE - Long.numberOfLeadingZeros(h);
+        int messType = (int) (h & (7 << (len - 4))) >> (len - 4);
+        int bodLength = (int) (h & (Integer.parseInt("11111111", 2) << (len - 12))) >> (len - 12);
+        int state = (int) (h & (Integer.parseInt("1111111111111111", 2))) << (len - 28);
+        if (messType == 2) {
+            int dest = (int) (h & (Integer.parseInt("111111", 2) << (len - 34))) << (len - 34);
+            return new int[] {messType, bodLength, state, dest};
+        }
+
+        return new int[] {messType, bodLength, state};
     }
 }

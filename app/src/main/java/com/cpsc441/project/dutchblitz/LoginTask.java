@@ -50,11 +50,15 @@ public class LoginTask extends AsyncTask<String, Void, String> {
             e.printStackTrace();
         }
 
-        String message = params[0] + " " + params[1], resp = "";
+        //String message = params[0] + " " + params[1], resp = "";
+        long header = 0;
+        header = header | 9; header = header << 8;
+        String body = params[0] + "\n" + params[1] + "\n", resp = "";
+        header = header | body.length(); header = header << 16;
 
         try {
             // Send credentials to server - IP address is currently hard-coded
-            out.writeBytes(message);
+            out.writeBytes(String.valueOf(header) + "\n" + body);
 
             resp = in.readLine();
         }
