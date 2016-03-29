@@ -42,6 +42,7 @@
         android:layout_height="wrap_content"
         android:text="@string/invite_text"
         android:id="@+id/inviteButton"
+        android:onClick="createInviteFriendsFrag"
         android:background="@color/secondary"
         android:layout_above="@+id/chatButton"
         android:layout_centerHorizontal="true" />
