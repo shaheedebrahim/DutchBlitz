@@ -5,102 +5,68 @@
     android:background="@color/background_material_dark"
     tools:context="com.cpsc441.project.dutchblitz.GameScreenActivity">
 
+
+
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button3"
+        android:text=" 0"
+        android:id="@+id/woodPile"
+        android:layout_alignTop="@+id/blatz"
+        android:layout_toStartOf="@+id/blatz" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 0"
+        android:id="@+id/blatz"
+        android:layout_above="@+id/postPile2"
+        android:layout_alignStart="@+id/postPile1" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 0"
+        android:id="@+id/postPile0"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/textView2" />
+        android:layout_alignStart="@+id/woodPile" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView2"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:text=" 0"
+        android:id="@+id/postPile1"
+        android:layout_alignBaseline="@+id/postPile2"
+        android:layout_alignBottom="@+id/postPile2"
+        android:layout_toStartOf="@+id/postPile2" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView3"
-        android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/button5" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView4"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/button5"
-        android:layout_marginStart="34dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView5"
-        android:layout_alignParentTop="true"
+        android:text=" 0"
+        android:id="@+id/postPile2"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button5"
-        android:layout_above="@+id/button8"
-        android:layout_toEndOf="@+id/button3" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button8"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_toEndOf="@+id/button3" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button9"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_toEndOf="@+id/button8" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView6"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="101dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView7"
-        android:layout_marginTop="58dp"
-        android:layout_below="@+id/textView6"
+        android:text=" 0"
+        android:id="@+id/p1postPile0"
+        android:layout_marginTop="43dp"
+        android:layout_below="@+id/p1postPile1"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView8"
+        android:text=" 0"
+        android:id="@+id/p1postPile1"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true" />
 
@@ -108,118 +74,199 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView9"
-        android:layout_marginTop="43dp"
-        android:layout_below="@+id/textView8"
+        android:text=" 0"
+        android:id="@+id/p1postPile2"
+        android:layout_marginTop="58dp"
+        android:layout_below="@+id/p1blatz"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView10"
-        android:layout_alignTop="@+id/textView6"
+        android:text=" 0"
+        android:id="@+id/p1blatz"
+        android:layout_below="@+id/p2postPile0"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="101dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=" 0"
+        android:id="@+id/p2postPile0"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/canadian0" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=" 0"
+        android:id="@+id/p2postPile1"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/canadian1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=" 0"
+        android:id="@+id/p2postPile2"
+        android:layout_above="@+id/p1blatz"
+        android:layout_toEndOf="@+id/blatz" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=" 0"
+        android:id="@+id/p2blatzPile"
+        android:layout_above="@+id/p1blatz"
+        android:layout_alignEnd="@+id/canadian1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=" 0"
+        android:id="@+id/p3postPile0"
+        android:layout_alignTop="@+id/p1blatz"
         android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView11"
-        android:layout_alignBottom="@+id/textView7"
+        android:text=" 0"
+        android:id="@+id/p3postPile1"
+        android:layout_alignBottom="@+id/p1postPile2"
         android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView12"
-        android:layout_alignTop="@+id/textView8"
+        android:text=" 0"
+        android:id="@+id/p3postPile2"
+        android:layout_alignTop="@+id/p1postPile1"
         android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView13"
-        android:layout_alignTop="@+id/textView9"
+        android:text=" 0"
+        android:id="@+id/p3blatz"
+        android:layout_alignTop="@+id/p1postPile0"
         android:layout_alignParentEnd="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button10"
-        android:layout_alignBottom="@+id/textView6"
-        android:layout_toEndOf="@+id/textView6" />
+
+
+
+
+
+
+
+
+
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button11"
-        android:layout_alignBottom="@+id/button10"
-        android:layout_toStartOf="@+id/textView10" />
+        android:text=" 0"
+        android:id="@+id/canadian0"
+        android:layout_alignTop="@+id/canadian1"
+        android:layout_toStartOf="@+id/canadian1" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button12"
-        android:layout_alignBottom="@+id/textView7"
-        android:layout_toEndOf="@+id/textView7" />
+        android:text=" 0"
+        android:id="@+id/canadian1"
+        android:layout_alignBottom="@+id/p3postPile0"
+        android:layout_toStartOf="@+id/p3postPile0" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button13"
-        android:layout_alignBottom="@+id/textView11"
-        android:layout_alignStart="@+id/button11" />
+        android:text=" 0"
+        android:id="@+id/canadian2"
+        android:layout_below="@+id/canadian1"
+        android:layout_toStartOf="@+id/canadian3" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button14"
-        android:layout_alignTop="@+id/textView8"
-        android:layout_toEndOf="@+id/textView8" />
+        android:text=" 0"
+        android:id="@+id/canadian3"
+        android:layout_below="@+id/canadian1"
+        android:layout_toEndOf="@+id/canadian0" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button15"
-        android:layout_alignTop="@+id/textView12"
-        android:layout_alignStart="@+id/button17" />
+        android:text=" 0"
+        android:id="@+id/canadian4"
+        android:layout_below="@+id/canadian2"
+        android:layout_alignStart="@+id/canadian2" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button16"
-        android:layout_below="@+id/textView9"
-        android:layout_toEndOf="@+id/textView9" />
+        android:text=" 0"
+        android:id="@+id/canadian5"
+        android:layout_below="@+id/canadian3"
+        android:layout_alignStart="@+id/canadian3" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button17"
-        android:layout_alignBottom="@+id/button16"
-        android:layout_alignEnd="@+id/button13" />
+        android:text=" 0"
+        android:id="@+id/canadian6"
+        android:layout_alignTop="@+id/canadian7"
+        android:layout_alignStart="@+id/canadian4" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button18"
-        android:layout_below="@+id/button5"
-        android:layout_toEndOf="@+id/button9" />
+        android:text=" 0"
+        android:id="@+id/canadian7"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/canadian4" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 0"
+        android:id="@+id/canadian8"
+        android:layout_below="@+id/canadian7"
+        android:layout_toStartOf="@+id/canadian7" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 0"
+        android:id="@+id/canadian9"
+        android:layout_below="@+id/canadian7"
+        android:layout_toEndOf="@+id/canadian8" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 0"
+        android:id="@+id/canadian10"
+        android:layout_below="@+id/canadian8"
+        android:layout_alignStart="@+id/canadian8" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 0"
+        android:id="@+id/canadian11"
+        android:layout_alignTop="@+id/canadian10"
+        android:layout_alignStart="@+id/canadian9" />
 
 </RelativeLayout>
