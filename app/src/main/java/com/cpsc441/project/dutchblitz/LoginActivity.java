@@ -54,11 +54,14 @@ public class LoginActivity extends Activity {
         String password = passwordText.getText().toString();
 
         new LoginTask(getApplicationContext()).execute(username, password);
-
-
     }
 
     public void createClicked(View view) {
+
+        String username = usernameText.getText().toString();
+        String password = passwordText.getText().toString();
+
+        new LoginTask(getApplicationContext()).execute(username, password);
 
         Intent intent = new Intent(this, PlayerHomeActivity.class);
         startActivity(intent);
