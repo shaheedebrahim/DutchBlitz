@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:text="@string/join_room_text"
         android:id="@+id/button4"
+        android:onClick="createJoinRoomFragment"
         android:background="@color/secondary"
         android:layout_column="9"
         android:layout_alignParentBottom="true"

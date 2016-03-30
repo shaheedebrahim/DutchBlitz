@@ -41,4 +41,9 @@ public class PlayerHomeActivity extends Activity {
         dialogFrag.show(getFragmentManager(), "Diag");
     }
 
+    public void createJoinRoomFragment(View view) {
+        JoinRoomFragment roomFragment = new JoinRoomFragment();
+        roomFragment.show(getFragmentManager(), "joinFrag");
+    }
+
 }
