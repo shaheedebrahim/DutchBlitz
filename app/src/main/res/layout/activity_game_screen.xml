@@ -106,7 +106,7 @@
         android:text=" 0"
         android:id="@+id/p2postPile1"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/canadian1" />
+        android:layout_alignEnd="@+id/canadian2" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -123,8 +123,8 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text=" 0"
         android:id="@+id/p2blatzPile"
-        android:layout_above="@+id/p1blatz"
-        android:layout_alignEnd="@+id/canadian1" />
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/canadian1" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -132,7 +132,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text=" 0"
         android:id="@+id/p3postPile0"
-        android:layout_alignTop="@+id/p1blatz"
+        android:layout_alignBelow="@+id/p2postPile2"
+        android:layout_alignBaseline="@+id/p1blatz"
+        android:layout_alignBottom="@+id/p1blatz"
         android:layout_alignParentEnd="true" />
 
     <TextView
@@ -141,8 +143,8 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text=" 0"
         android:id="@+id/p3postPile1"
-        android:layout_alignBottom="@+id/p1postPile2"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignTop="@+id/p1postPile2"
+        android:layout_toStartOf="@+id/p3postPile0" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -151,7 +153,7 @@
         android:text=" 0"
         android:id="@+id/p3postPile2"
         android:layout_alignTop="@+id/p1postPile1"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignStart="@+id/p3postPile1" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -160,7 +162,7 @@
         android:text=" 0"
         android:id="@+id/p3blatz"
         android:layout_alignTop="@+id/p1postPile0"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignStart="@+id/p3postPile1" />
 
 
 
@@ -178,32 +180,33 @@
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/canadian0"
-        android:layout_alignTop="@+id/canadian1"
-        android:layout_toStartOf="@+id/canadian1" />
+        android:layout_above="@+id/p1postPile2"
+        android:layout_toStartOf="@+id/canadian1"
+        android:layout_marginEnd="51dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/canadian1"
-        android:layout_alignBottom="@+id/p3postPile0"
-        android:layout_toStartOf="@+id/p3postPile0" />
+        android:layout_above="@+id/canadian3"
+        android:layout_alignStart="@+id/canadian3" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/canadian2"
-        android:layout_below="@+id/canadian1"
-        android:layout_toStartOf="@+id/canadian3" />
+        android:layout_below="@+id/canadian0"
+        android:layout_toEndOf="@+id/p2postPile0" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/canadian3"
-        android:layout_below="@+id/canadian1"
-        android:layout_toEndOf="@+id/canadian0" />
+        android:layout_alignTop="@+id/canadian2"
+        android:layout_toEndOf="@+id/woodPile" />
 
     <Button
         android:layout_width="wrap_content"
@@ -234,24 +237,24 @@
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/canadian7"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/canadian4" />
+        android:layout_below="@+id/canadian5"
+        android:layout_alignStart="@+id/canadian5" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/canadian8"
-        android:layout_below="@+id/canadian7"
-        android:layout_toStartOf="@+id/canadian7" />
+        android:layout_alignTop="@+id/canadian9"
+        android:layout_alignStart="@+id/canadian6" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/canadian9"
-        android:layout_below="@+id/canadian7"
-        android:layout_toEndOf="@+id/canadian8" />
+        android:layout_alignBottom="@+id/p3blatz"
+        android:layout_toStartOf="@+id/postPile2" />
 
     <Button
         android:layout_width="wrap_content"
