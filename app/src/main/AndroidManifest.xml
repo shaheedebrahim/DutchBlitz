@@ -60,6 +60,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cpsc441.project.dutchblitz.PlayerHomeActivity" />
         </activity>
+        <activity
+            android:name=".LeaderboardActivity"
+            android:label="@string/title_activity_leaderboard"
+            android:parentActivityName=".PlayerHomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cpsc441.project.dutchblitz.PlayerHomeActivity" />
+        </activity>
     </application>
 
 </manifest>

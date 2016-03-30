@@ -70,4 +70,16 @@
         android:layout_above="@+id/button6"
         android:layout_below="@+id/usernameText" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/display_leaderboard"
+        android:id="@+id/leaderboardButton"
+        android:onClick="createLeaderboardActivity"
+        android:background="@color/secondary"
+        android:layout_column="9"
+        android:layout_alignBottom="@+id/button6"
+        android:layout_alignEnd="@+id/listView"
+        android:layout_toEndOf="@+id/usernameText" />
+
 </RelativeLayout>

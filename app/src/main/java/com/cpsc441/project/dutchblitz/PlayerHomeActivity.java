@@ -1,6 +1,7 @@
 package com.cpsc441.project.dutchblitz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -44,6 +45,11 @@ public class PlayerHomeActivity extends Activity {
     public void createJoinRoomFragment(View view) {
         JoinRoomFragment roomFragment = new JoinRoomFragment();
         roomFragment.show(getFragmentManager(), "joinFrag");
+    }
+
+    public void createLeaderboardActivity(View view) {
+        Intent i = new Intent(this, LeaderboardActivity.class);
+        startActivity(i);
     }
 
 }

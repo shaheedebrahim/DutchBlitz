@@ -31,6 +31,8 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_game_screen">GameScreenActivity</string>
+    <string name="title_activity_leaderboard">LeaderboardActivity</string>
+    <string name="display_leaderboard">Display Leaderboard</string>
 
 
 </resources>
