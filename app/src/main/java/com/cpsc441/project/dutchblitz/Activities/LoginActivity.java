@@ -1,4 +1,4 @@
-package com.cpsc441.project.dutchblitz;
+package com.cpsc441.project.dutchblitz.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+
+import com.cpsc441.project.dutchblitz.LoginTask;
+import com.cpsc441.project.dutchblitz.R;
 
 public class LoginActivity extends Activity {
 

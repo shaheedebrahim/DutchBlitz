@@ -1,5 +1,4 @@
-import java.util.Stack;
-
+package com.cpsc441.project.dutchblitz.GameLogic;
 
 public class GameTable {
 	private int NUMBER_OF_CANADIAN_PILES = 12;

@@ -32,6 +32,7 @@ public class LoginTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         Log.d("init", "test");
         try {
+            Log.d("init", "blarg");
             sock = new Socket("162.246.157.144", 1234);
             Log.d("init: ", sock.toString());
             out = new DataOutputStream(sock.getOutputStream());

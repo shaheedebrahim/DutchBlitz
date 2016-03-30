@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#34495e"
-    tools:context="com.cpsc441.project.dutchblitz.LoginActivity">
+    tools:context=".Activities.LoginActivity">
 
     <ImageView
         android:layout_width="200dp"

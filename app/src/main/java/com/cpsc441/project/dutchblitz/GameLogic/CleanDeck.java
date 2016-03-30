@@ -1,3 +1,5 @@
+package com.cpsc441.project.dutchblitz.GameLogic;
+
 import java.util.Random;
 
 public class CleanDeck {

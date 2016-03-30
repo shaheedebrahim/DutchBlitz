@@ -1,8 +1,9 @@
+package com.cpsc441.project.dutchblitz.GameLogic;
 
 public class Card {
 
-	String colour;
-	int value;
+	public String colour;
+	public int value;
 	int playerId;
 	public Card(String c, int v, int id){
 		colour = c;

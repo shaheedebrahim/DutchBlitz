@@ -1,4 +1,4 @@
-package com.cpsc441.project.dutchblitz;
+package com.cpsc441.project.dutchblitz.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.cpsc441.project.dutchblitz.R;
 
 import java.net.DatagramSocket;
 

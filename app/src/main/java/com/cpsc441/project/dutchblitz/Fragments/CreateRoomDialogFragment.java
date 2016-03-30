@@ -1,4 +1,4 @@
-package com.cpsc441.project.dutchblitz;
+package com.cpsc441.project.dutchblitz.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+
+import com.cpsc441.project.dutchblitz.Activities.WaitingRoomActivity;
+import com.cpsc441.project.dutchblitz.R;
 
 
 public class CreateRoomDialogFragment extends DialogFragment {

@@ -3,51 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_material_dark"
-    tools:context="com.cpsc441.project.dutchblitz.GameScreenActivity">
+    tools:context=".Activities.GameScreenActivity">
 
 
-
-
-    <Button
+    <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/woodPile"
         android:layout_alignTop="@+id/blatz"
-        android:layout_toStartOf="@+id/blatz" />
+        android:layout_toStartOf="@+id/blatz"
+        android:onClick="toggleButtonSelected" />
 
-    <Button
+    <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/blatz"
         android:layout_above="@+id/postPile2"
-        android:layout_alignStart="@+id/postPile1" />
+        android:layout_alignStart="@+id/postPile1"
+        android:onClick="toggleButtonSelected" />
 
-    <Button
+    <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/postPile0"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/woodPile" />
+        android:layout_alignStart="@+id/woodPile"
+        android:onClick="toggleButtonSelected" />
 
-    <Button
+    <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/postPile1"
         android:layout_alignBaseline="@+id/postPile2"
         android:layout_alignBottom="@+id/postPile2"
-        android:layout_toStartOf="@+id/postPile2" />
+        android:layout_toStartOf="@+id/postPile2"
+        android:onClick="toggleButtonSelected" />
 
-    <Button
+    <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/postPile2"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="toggleButtonSelected" />
 
 
 
@@ -132,7 +135,6 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text=" 0"
         android:id="@+id/p3postPile0"
-        android:layout_alignBelow="@+id/p2postPile2"
         android:layout_alignBaseline="@+id/p1blatz"
         android:layout_alignBottom="@+id/p1blatz"
         android:layout_alignParentEnd="true" />

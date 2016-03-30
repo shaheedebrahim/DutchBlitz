@@ -1,9 +1,11 @@
-package com.cpsc441.project.dutchblitz;
+package com.cpsc441.project.dutchblitz.Activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.cpsc441.project.dutchblitz.R;
 
 import java.util.ArrayList;
 
