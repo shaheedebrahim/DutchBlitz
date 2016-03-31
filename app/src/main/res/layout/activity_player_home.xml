@@ -22,15 +22,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/chat_text"
-        android:id="@+id/button7"
-        android:background="@color/secondary"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/button6" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/join_room_text"
         android:id="@+id/button4"
         android:onClick="createJoinRoomFragment"
