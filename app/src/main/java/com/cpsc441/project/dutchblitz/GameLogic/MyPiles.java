@@ -62,7 +62,7 @@ public class MyPiles {
 	}
 	
 	public Card[] myCards(){
-		Card[] temp = {postPiles[0], postPiles[1], postPiles[2], woodPile.peek(), blatzPile.peek()};
+		Card[] temp = {woodPile.peek(), blatzPile.peek(), postPiles[0], postPiles[1], postPiles[2]};
 		return temp;
 	} 
 	

@@ -17,7 +17,7 @@ public class ServerSideGame {
 		if(canadianPiles[indexRequested]== null && c.value == 1){
 			canadianPiles[indexRequested] = c;
 			return true;
-		}if(canadianPiles[indexRequested].colour.equals(c.colour) &&
+		}if(canadianPiles[indexRequested].colour == c.colour &&
 				((canadianPiles[indexRequested].value+1) == c.value)){
 			canadianPiles[indexRequested] = c;
 			return true;

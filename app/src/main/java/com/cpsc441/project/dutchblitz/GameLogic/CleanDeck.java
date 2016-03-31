@@ -4,7 +4,8 @@ import java.util.Random;
 
 public class CleanDeck {
 	//Colours: Red, Blue, Green, Yellow
-	private String[] cardColours = {"r", "b", "g", "y"};
+	private int[] cardColours = {Card.RED, Card.BLUE, Card.YELLOW, Card.GREEN};
+	//private String[] cardColours = {"r", "b", "g", "y"};
 	private int DECK_SIZE = 40;
 	public Card[] newDeck;
 
@@ -13,7 +14,7 @@ public class CleanDeck {
 	public CleanDeck(int playerId){
 		newDeck = new Card[DECK_SIZE];
 		int j = 0;
-		for(String c: cardColours){
+		for(int c: cardColours){
 			for(int i = 1; i < 11; i++){
 				newDeck[j] = new Card(c,i, playerId);
 				j++;
