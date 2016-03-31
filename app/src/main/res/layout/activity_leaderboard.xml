@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.cpsc441.project.dutchblitz.LeaderboardActivity"
+    tools:context=".Activities.LeaderboardActivity"
     android:background="@color/background_material_dark">
 
     <ListView

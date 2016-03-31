@@ -1,4 +1,4 @@
-package com.cpsc441.project.dutchblitz;
+package com.cpsc441.project.dutchblitz.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,18 +6,29 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.cpsc441.project.dutchblitz.Fragments.CreateRoomDialogFragment;
+import com.cpsc441.project.dutchblitz.Fragments.JoinRoomFragment;
+import com.cpsc441.project.dutchblitz.R;
 
 import java.util.ArrayList;
 
 public class PlayerHomeActivity extends Activity {
 
     ArrayList<String> statisticNames = new ArrayList<String>();
+    TextView titleText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_home);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        Intent intent = getIntent();
+        String title = intent.getStringExtra("message");
+
+        titleText = (TextView) findViewById(R.id.usernameText);
+        titleText.setText(title);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, statisticNames);
         setNames();

@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.cpsc441.project.dutchblitz.PlayerHomeActivity"
+    tools:context=".Activities.PlayerHomeActivity"
     android:background="@color/background_material_dark">
 
     <TextView

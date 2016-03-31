@@ -1,5 +1,4 @@
-import java.lang.reflect.Array;
-
+package com.cpsc441.project.dutchblitz.GameLogic;
 
 public class Opponent {
 	private Card[] oppCards;

@@ -1,3 +1,4 @@
+package com.cpsc441.project.dutchblitz.GameLogic;
 
 public class ServerSideGame {
 	
