@@ -24,6 +24,8 @@ public class CreateRoomDialogFragment extends DialogFragment {
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
+        final String username = getArguments().getString("username");
+
         Log.d("test", "OMG WRITE SOMETHING");
         builder.setView(inflater.inflate(R.layout.fragment_create_room_dialog, null))
                 .setPositiveButton(R.string.create, new DialogInterface.OnClickListener() {
@@ -35,6 +37,7 @@ public class CreateRoomDialogFragment extends DialogFragment {
 
                         Intent i = new Intent(getActivity(), WaitingRoomActivity.class);
                         i.putExtra("message", roomNameEditText.getText().toString());
+                        i.putExtra("username", username);
                         startActivity(i);
                     }
                 })

@@ -18,6 +18,7 @@ public class PlayerHomeActivity extends Activity {
 
     ArrayList<String> statisticNames = new ArrayList<String>();
     TextView titleText;
+    String playerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +26,10 @@ public class PlayerHomeActivity extends Activity {
         setContentView(R.layout.activity_player_home);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
-        String title = intent.getStringExtra("message");
+        playerName = intent.getStringExtra("message");
 
         titleText = (TextView) findViewById(R.id.usernameText);
-        titleText.setText(title);
+        titleText.setText(playerName);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, statisticNames);
         setNames();
@@ -49,12 +50,20 @@ public class PlayerHomeActivity extends Activity {
     }
 
     private void showDialog() {
+        Bundle bundle = new Bundle();
+        bundle.putString("username", playerName);
+
         CreateRoomDialogFragment dialogFrag = new CreateRoomDialogFragment();
+        dialogFrag.setArguments(bundle);
         dialogFrag.show(getFragmentManager(), "Diag");
     }
 
     public void createJoinRoomFragment(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString("username", playerName);
+
         JoinRoomFragment roomFragment = new JoinRoomFragment();
+        roomFragment.setArguments(bundle);
         roomFragment.show(getFragmentManager(), "joinFrag");
     }
 

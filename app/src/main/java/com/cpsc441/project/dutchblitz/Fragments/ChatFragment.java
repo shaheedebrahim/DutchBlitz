@@ -22,12 +22,14 @@ public class ChatFragment extends DialogFragment {
     ListView listView;
     EditText chatText;
     ArrayAdapter<String> adapter;
+    String username;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
+        username = getArguments().getString("username");
 
         View rootView = inflater.inflate(R.layout.fragment_chat, null, false);
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, messages);
@@ -54,7 +56,7 @@ public class ChatFragment extends DialogFragment {
     }
 
     public void addMessage(String msg) {
-        messages.add(msg);
+        messages.add(username + ": " + msg);
         adapter.notifyDataSetChanged();
     }
 

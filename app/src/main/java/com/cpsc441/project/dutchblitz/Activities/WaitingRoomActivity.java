@@ -19,6 +19,7 @@ public class WaitingRoomActivity extends Activity {
     ArrayList<String> playerNames = new ArrayList<String>();
     ArrayAdapter<String> adapter;
     TextView titleOfRoom;
+    String mePlayerUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +28,13 @@ public class WaitingRoomActivity extends Activity {
 
         Intent intent = getIntent();
         String title = intent.getStringExtra("message");
+        mePlayerUsername = intent.getStringExtra("username");
 
         titleOfRoom = (TextView) findViewById(R.id.roomName);
         titleOfRoom.setText(title);
 
         //Should grab user's user name
-        playerNames.add("Me");
+        playerNames.add(mePlayerUsername);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, playerNames);
 
         ListView listView = (ListView) findViewById(R.id.currentPlayers);
@@ -57,7 +59,11 @@ public class WaitingRoomActivity extends Activity {
     }
 
     public void createChatWindowFrag(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString("username", mePlayerUsername);
+
         ChatFragment frag = new ChatFragment();
+        frag.setArguments(bundle);
         frag.show(getFragmentManager(), "ChatFrag");
     }
 }
