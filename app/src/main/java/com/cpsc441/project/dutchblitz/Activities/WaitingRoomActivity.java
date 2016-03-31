@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cpsc441.project.dutchblitz.Fragments.ChatFragment;
 import com.cpsc441.project.dutchblitz.Fragments.InviteFriendFragment;
 import com.cpsc441.project.dutchblitz.R;
 
@@ -53,5 +54,10 @@ public class WaitingRoomActivity extends Activity {
     public void startGameActivity(View view) {
         Intent i = new Intent(this, GameScreenActivity.class);
         startActivity(i);
+    }
+
+    public void createChatWindowFrag(View view) {
+        ChatFragment frag = new ChatFragment();
+        frag.show(getFragmentManager(), "ChatFrag");
     }
 }
