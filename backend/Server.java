@@ -14,10 +14,10 @@ import java.util.*;
 public class Server {
     public static int BUFFERSIZE = 32;
 
-    private static DatabaseDriver db;
+    //private static DatabaseDriver db;
 
     public Server() {
-        db = new DatabaseDriver();
+        //db = new DatabaseDriver();
     }
 
     public static void main(String args[]) throws Exception
@@ -121,7 +121,7 @@ public class Server {
                             switch (fields[0]) {
                                 case 0:
                                     //login
-                                    if(db.checkExistingUser(split[1])){
+                                    if(/*db.checkExistingUser(split[1])*/true){
                                         boolean valid = false;
                                         // Check for validity of username/password combo
 
@@ -129,11 +129,11 @@ public class Server {
                                             Random rand = new Random();
                                             int id = rand.nextInt(65535) + 1;
 
-                                            send(cchannel, inBuffer, String.valueOf(id));
+                                            bytesSent = send(cchannel, inBuffer, String.valueOf(id));
                                         }
-                                        else send(cchannel, inBuffer, "0");
+                                        else bytesSent = send(cchannel, inBuffer, "0");
                                     }
-                                    else send(cchannel, inBuffer, "0");
+                                    else bytesSent = send(cchannel, inBuffer, "0");
                                     break;
                                 case 1:
                                     // join/leave
@@ -142,15 +142,15 @@ public class Server {
                                     // chat
                                     break;
                                 case 3:
-                                    if(!db.checkExistingUser(split[1])){
-                                        db.addNewUser(split[1],split[2]);
+                                    if(/*!db.checkExistingUser(split[1])*/true){
+                                        //db.addNewUser(split[1],split[2]);
 
                                         Random rand = new Random();
                                         int id = rand.nextInt(65535) + 1;
 
-                                        send(cchannel, inBuffer, String.valueOf(id));
+                                        bytesSent = send(cchannel, inBuffer, String.valueOf(id));
                                     }
-                                    else send(cchannel, inBuffer, "0");
+                                    else bytesSent = send(cchannel, inBuffer, "0");
                                     break;
                                 case 4:
                                     // game update
@@ -200,10 +200,10 @@ public class Server {
         return new int[] {messType, bodLength, state};
     }
 
-    private static void send(SocketChannel cchannel, ByteBuffer buff, String message) {
+    private static int send(SocketChannel cchannel, ByteBuffer buff, String message) throws IOException {
         buff = ByteBuffer.allocateDirect(BUFFERSIZE);
         buff.put((message + "\n").getBytes());
         buff.flip();
-        bytesSent = cchannel.write(buff);
+        return cchannel.write(buff);
     }
 }

@@ -70,11 +70,20 @@ public class LoginActivity extends Activity {
         String username = usernameText.getText().toString();
         String password = passwordText.getText().toString();
 
-        new LoginTask().execute(username, password);
+        new LoginTask(8).execute(username, password);
 
         lock.lock();
-        System.out.println(success);
-        lock.unlock();
+        try {
+            if (success) {
+                Intent intent = new Intent(this, PlayerHomeActivity.class);
+                intent.putExtra("message", username);
+                startActivity(intent);
+            }
+            else Toast.makeText(getApplicationContext(), "Incorrect credentials", Toast.LENGTH_LONG).show();
+        }
+        finally {
+            lock.unlock();
+        }
     }
 
     public void createClicked(View view) {
@@ -82,11 +91,20 @@ public class LoginActivity extends Activity {
         String username = usernameText.getText().toString();
         String password = passwordText.getText().toString();
 
-        new CreateAccountTask(getApplicationContext()).execute(username, password);
+        new LoginTask(11).execute(username, password);
 
-        Intent intent = new Intent(this, PlayerHomeActivity.class);
-        intent.putExtra("message", username);
-        startActivity(intent);
+        lock.lock();
+        try {
+            if (success) {
+                Intent intent = new Intent(this, PlayerHomeActivity.class);
+                intent.putExtra("message", username);
+                startActivity(intent);
+            }
+            else Toast.makeText(getApplicationContext(), "Username taken", Toast.LENGTH_LONG).show();
+        }
+        finally {
+            lock.unlock();
+        }
     }
 
     private class LoginTask extends AsyncTask<String, Void, String> {
@@ -95,9 +113,11 @@ public class LoginActivity extends Activity {
         private Socket sock = null;
         private DataOutputStream out = null;
         private BufferedReader in = null;
+        private int headVal;
 
-        public LoginTask() {
+        public LoginTask(int h) {
             lock.lock();
+            headVal = h;
         }
 
         @Override
@@ -108,7 +128,7 @@ public class LoginActivity extends Activity {
         protected String doInBackground(String... params) {
             Log.d("init", "test");
             try {
-                sock = new Socket("162.246.157.144", 1234);
+                sock = new Socket(/*"162.246.157.144"*/"192.168.56.1", 1234);
                 Log.d("init: ", sock.toString());
                 out = new DataOutputStream(sock.getOutputStream());
                 in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
@@ -125,7 +145,7 @@ public class LoginActivity extends Activity {
 
             //String message = params[0] + " " + params[1], resp = "";
             long header = 0;
-            header = header | 8;
+            header = header | headVal;
             header = header << 8;
             String body = params[0] + "\n" + params[1] + "\n", resp = "";
             header = header | body.length(); header = header << 16;
@@ -158,81 +178,13 @@ public class LoginActivity extends Activity {
             catch (IOException e) {
                 e.printStackTrace();
             }
+
+            if (!res.equals("0")) {
+                success = true;
+                // TODO: Save user identifier somehow
+            }
+
             lock.unlock();
-        }
-    }
-
-    private class CreateAccountTask extends AsyncTask<String, Void, String> {
-        final int PACKET_SIZE = 64;
-
-        private Context appCon = null;
-        private Socket sock = null;
-        private DataOutputStream out = null;
-        private BufferedReader in = null;
-
-        public CreateAccountTask(Context con) {
-            appCon = con;
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            Log.d("init", "test");
-            try {
-                sock = new Socket("162.246.157.144", 1234);
-                Log.d("init: ", sock.toString());
-                out = new DataOutputStream(sock.getOutputStream());
-                in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-                Log.d("Init: ", "Success");
-            }
-            catch (UnknownHostException e) {
-                System.out.println("Failed to create client socket.");
-                e.printStackTrace();
-            }
-            catch (IOException e) {
-                System.out.println("Socket creation caused error.");
-                e.printStackTrace();
-            }
-
-            //String message = params[0] + " " + params[1], resp = "";
-            long header = 0;
-            header = header | 11;
-            header = header << 8;
-            String body = params[0] + "\n" + params[1] + "\n", resp = "";
-            header = header | body.length(); header = header << 16;
-
-            try {
-                // Send credentials to server - IP address is currently hard-coded
-                out.writeBytes(String.valueOf(header) + "\n" + body);
-
-                resp = in.readLine();
-            }
-            catch (UnknownHostException e) {
-                System.out.println("Attempted to contact unknown host.");
-                e.printStackTrace();
-            }
-            catch (IOException e) {
-                System.out.println("Failed to send packet.");
-                e.printStackTrace();
-            }
-
-            Log.d("Android: ", "Create Account");
-            return resp;
-        }
-
-        @Override
-        protected void onPostExecute(String res) {
-            Log.d("Android: ", "Exchange done");
-            try {
-                sock.close();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-            Toast.makeText(appCon, res, Toast.LENGTH_LONG).show();
         }
     }
 }
