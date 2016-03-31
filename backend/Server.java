@@ -14,7 +14,7 @@ import java.util.*;
 public class Server {
     public static int BUFFERSIZE = 32;
 
-    private DatabaseDriver db;
+    private static DatabaseDriver db;
 
     public Server() {
         db = new DatabaseDriver();
@@ -118,9 +118,22 @@ public class Server {
                             int[] fields = parseHeader(Long.parseLong(split[0]));
                             System.out.printf("%d %d %d\n", fields[0], fields[1], fields[2]);
 
-                            switch (fields) {
+                            switch (fields[0]) {
                                 case 0:
-                                    // login
+                                    //login
+                                    if(db.checkExistingUser(split[1])){
+                                        boolean valid = false;
+                                        // Check for validity of username/password combo
+
+                                        if (valid) {
+                                            Random rand = new Random();
+                                            int id = rand.nextInt(65535) + 1;
+
+                                            send(cchannel, inBuffer, String.valueOf(id));
+                                        }
+                                        else send(cchannel, inBuffer, "0");
+                                    }
+                                    else send(cchannel, inBuffer, "0");
                                     break;
                                 case 1:
                                     // join/leave
@@ -129,7 +142,15 @@ public class Server {
                                     // chat
                                     break;
                                 case 3:
-                                    // create account
+                                    if(!db.checkExistingUser(split[1])){
+                                        db.addNewUser(split[1],split[2]);
+
+                                        Random rand = new Random();
+                                        int id = rand.nextInt(65535) + 1;
+
+                                        send(cchannel, inBuffer, String.valueOf(id));
+                                    }
+                                    else send(cchannel, inBuffer, "0");
                                     break;
                                 case 4:
                                     // game update
@@ -140,12 +161,6 @@ public class Server {
                                 default:
                                     break;
                             }
-
-                            // Echo the message back
-                            inBuffer = ByteBuffer.allocateDirect(BUFFERSIZE);
-                            inBuffer.put("Success\n".getBytes());
-                            inBuffer.flip();
-                            bytesSent = cchannel.write(inBuffer);
 
                             if (line.equals("terminate\n"))
                                 terminated = true;
@@ -183,5 +198,12 @@ public class Server {
         }
 
         return new int[] {messType, bodLength, state};
+    }
+
+    private static void send(SocketChannel cchannel, ByteBuffer buff, String message) {
+        buff = ByteBuffer.allocateDirect(BUFFERSIZE);
+        buff.put((message + "\n").getBytes());
+        buff.flip();
+        bytesSent = cchannel.write(buff);
     }
 }
