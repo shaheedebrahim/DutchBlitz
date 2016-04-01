@@ -2,6 +2,7 @@ package com.cpsc441.project.dutchblitz.Activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +31,8 @@ public class GameScreenActivity extends Activity {
     Button pauseResume;
     boolean pauseState;
 
+    String id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,9 @@ public class GameScreenActivity extends Activity {
 
         ActionBar actionBar = getActionBar();
         actionBar.hide();
+
+        Intent i = new Intent();
+        id = i.getStringExtra("id");
 
         pauseResume = (Button) findViewById(R.id.pauseResumeButton);
 

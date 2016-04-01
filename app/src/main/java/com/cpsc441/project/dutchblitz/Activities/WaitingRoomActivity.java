@@ -20,6 +20,8 @@ public class WaitingRoomActivity extends Activity {
     ArrayAdapter<String> adapter;
     TextView titleOfRoom;
     String mePlayerUsername;
+    String id;
+    String roomName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +29,12 @@ public class WaitingRoomActivity extends Activity {
         setContentView(R.layout.activity_waiting_room);
 
         Intent intent = getIntent();
-        String title = intent.getStringExtra("message");
+        roomName = intent.getStringExtra("message");
         mePlayerUsername = intent.getStringExtra("username");
+        id = intent.getStringExtra("id");
 
         titleOfRoom = (TextView) findViewById(R.id.roomName);
-        titleOfRoom.setText(title);
+        titleOfRoom.setText(roomName);
 
         //Should grab user's user name
         playerNames.add(mePlayerUsername);
@@ -49,18 +52,25 @@ public class WaitingRoomActivity extends Activity {
     }
 
     public void createInviteFriendsFrag(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString("id", id);
+        bundle.putString("roomName", roomName);
+
         InviteFriendFragment frag = new InviteFriendFragment();
+        frag.setArguments(bundle);
         frag.show(getFragmentManager(), "InvFrag");
     }
 
     public void startGameActivity(View view) {
         Intent i = new Intent(this, GameScreenActivity.class);
+        i.putExtra("id", id);
         startActivity(i);
     }
 
     public void createChatWindowFrag(View view) {
         Bundle bundle = new Bundle();
         bundle.putString("username", mePlayerUsername);
+        bundle.putString("id", id);
 
         ChatFragment frag = new ChatFragment();
         frag.setArguments(bundle);

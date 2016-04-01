@@ -73,7 +73,7 @@ public class ChatFragment extends DialogFragment {
         //Check if username is valid, then send message to that user only
         boolean valid = true;
         if (valid) {
-            messages.add("To [" + suppliedUsername + "]: " + msg.substring(4 + suppliedUsername.length(), msg.length()));
+            messages.add("To [" + suppliedUsername + "]: " + msg.substring(3 + suppliedUsername.length() + 1, msg.length()));
             adapter.notifyDataSetChanged();
         }
 

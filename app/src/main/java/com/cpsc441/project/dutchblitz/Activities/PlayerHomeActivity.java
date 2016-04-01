@@ -20,14 +20,17 @@ public class PlayerHomeActivity extends Activity {
     ArrayList<String> statisticNames = new ArrayList<String>();
     TextView titleText;
     String playerName;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_home);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
         Intent intent = getIntent();
         playerName = intent.getStringExtra("message");
+        id = intent.getStringExtra("id");
 
         titleText = (TextView) findViewById(R.id.usernameText);
         titleText.setText(playerName);
@@ -53,6 +56,7 @@ public class PlayerHomeActivity extends Activity {
     private void showDialog() {
         Bundle bundle = new Bundle();
         bundle.putString("username", playerName);
+        bundle.putString("id", id);
 
         CreateRoomDialogFragment dialogFrag = new CreateRoomDialogFragment();
         dialogFrag.setArguments(bundle);
@@ -62,6 +66,7 @@ public class PlayerHomeActivity extends Activity {
     public void createJoinRoomFragment(View view) {
         Bundle bundle = new Bundle();
         bundle.putString("username", playerName);
+        bundle.putString("id", id);
 
         JoinRoomFragment roomFragment = new JoinRoomFragment();
         roomFragment.setArguments(bundle);
@@ -70,11 +75,17 @@ public class PlayerHomeActivity extends Activity {
 
     public void createLeaderboardActivity(View view) {
         Intent i = new Intent(this, LeaderboardActivity.class);
+        i.putExtra("id", id);
         startActivity(i);
     }
 
     public void createObserveRoomFragment(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString("username", playerName);
+        bundle.putString("id", id);
+
         ObserveFragment observeFragment = new ObserveFragment();
+        observeFragment.setArguments(bundle);
         observeFragment.show(getFragmentManager(), "Frag");
     }
 

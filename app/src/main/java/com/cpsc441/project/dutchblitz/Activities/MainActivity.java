@@ -44,6 +44,13 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //Initiate logout
+
+    }
+
     public void createLogin(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

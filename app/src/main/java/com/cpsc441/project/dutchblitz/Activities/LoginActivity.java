@@ -82,6 +82,7 @@ public class LoginActivity extends Activity {
             if (success) {
                 Intent intent = new Intent(this, PlayerHomeActivity.class);
                 intent.putExtra("message", username);
+                intent.putExtra("id", id);
                 startActivity(intent);
             }
             else Toast.makeText(getApplicationContext(), "Incorrect credentials", Toast.LENGTH_LONG).show();

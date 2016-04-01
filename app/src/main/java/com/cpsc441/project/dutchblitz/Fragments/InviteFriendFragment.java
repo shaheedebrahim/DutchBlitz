@@ -17,6 +17,9 @@ public class InviteFriendFragment extends DialogFragment {
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
+        final String id = getArguments().getString("id");
+        final String roomName = getArguments().getString("roomName");
+
         builder.setView(inflater.inflate(R.layout.fragment_invite_friend, null))
                 .setPositiveButton(R.string.invite, new DialogInterface.OnClickListener() {
                     @Override

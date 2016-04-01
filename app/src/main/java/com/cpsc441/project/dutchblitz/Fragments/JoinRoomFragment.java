@@ -20,6 +20,8 @@ public class JoinRoomFragment extends DialogFragment {
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
+        final String id = getArguments().getString("id");
+
         builder.setView(inflater.inflate(R.layout.fragment_join_room, null))
                 .setPositiveButton(R.string.join_room_text, new DialogInterface.OnClickListener() {
                     @Override

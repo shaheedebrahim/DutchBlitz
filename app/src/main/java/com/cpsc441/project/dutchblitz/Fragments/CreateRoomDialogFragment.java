@@ -38,6 +38,7 @@ public class CreateRoomDialogFragment extends DialogFragment {
                         Intent i = new Intent(getActivity(), WaitingRoomActivity.class);
                         i.putExtra("message", roomNameEditText.getText().toString());
                         i.putExtra("username", username);
+                        i.putExtra("id", id);
                         startActivity(i);
                     }
                 })
