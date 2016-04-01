@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.cpsc441.project.dutchblitz.Fragments.CreateRoomDialogFragment;
 import com.cpsc441.project.dutchblitz.Fragments.JoinRoomFragment;
+import com.cpsc441.project.dutchblitz.Fragments.ObserveFragment;
 import com.cpsc441.project.dutchblitz.R;
 
 import java.util.ArrayList;
@@ -70,6 +71,11 @@ public class PlayerHomeActivity extends Activity {
     public void createLeaderboardActivity(View view) {
         Intent i = new Intent(this, LeaderboardActivity.class);
         startActivity(i);
+    }
+
+    public void createObserveRoomFragment(View view) {
+        ObserveFragment observeFragment = new ObserveFragment();
+        observeFragment.show(getFragmentManager(), "Frag");
     }
 
 }

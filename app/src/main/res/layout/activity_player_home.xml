@@ -38,8 +38,11 @@
         android:id="@+id/button6"
         android:background="@color/secondary"
         android:layout_column="9"
-        android:layout_alignTop="@+id/createRoom"
-        android:layout_alignStart="@+id/usernameText" />
+        android:onClick="createObserveRoomFragment"
+        android:layout_below="@+id/createRoom"
+        android:layout_alignEnd="@+id/leaderboardButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/leaderboardButton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -58,8 +61,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/listView"
         android:layout_alignParentEnd="true"
-        android:layout_above="@+id/button6"
-        android:layout_below="@+id/usernameText" />
+        android:layout_below="@+id/usernameText"
+        android:layout_above="@+id/createRoom" />
 
     <Button
         android:layout_width="wrap_content"
@@ -69,8 +72,7 @@
         android:onClick="createLeaderboardActivity"
         android:background="@color/secondary"
         android:layout_column="9"
-        android:layout_alignBottom="@+id/button6"
-        android:layout_alignEnd="@+id/listView"
+        android:layout_alignTop="@+id/createRoom"
         android:layout_toEndOf="@+id/usernameText" />
 
 </RelativeLayout>

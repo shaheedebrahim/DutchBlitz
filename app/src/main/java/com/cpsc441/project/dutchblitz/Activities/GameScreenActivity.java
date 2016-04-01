@@ -5,13 +5,13 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
+import android.widget.Button;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.cpsc441.project.dutchblitz.GameLogic.Card;
 import com.cpsc441.project.dutchblitz.GameLogic.GameTable;
 import com.cpsc441.project.dutchblitz.GameLogic.MoveRequest;
-import com.cpsc441.project.dutchblitz.GameLogic.MyPiles;
 import com.cpsc441.project.dutchblitz.R;
 
 public class GameScreenActivity extends Activity {
@@ -27,6 +27,9 @@ public class GameScreenActivity extends Activity {
     MoveRequest mover;
     Thread moveRequest;
 
+    Button pauseResume;
+    boolean pauseState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,9 @@ public class GameScreenActivity extends Activity {
 
         ActionBar actionBar = getActionBar();
         actionBar.hide();
+
+        pauseResume = (Button) findViewById(R.id.pauseResumeButton);
+
         //Give the correct number of players (must be less than 4)
         //Give the playerID for this game(should be 0 or 1 or 2 or 3)
         game = new GameTable(4, 0);
@@ -133,8 +139,34 @@ public class GameScreenActivity extends Activity {
         }
     }
 
-    private void initButtons() {
+    public void pauseAndResume(View view) {
+        if (pauseResume.getText().toString().equals("=")) {
+            pauseGame();
+        } else {
+            resumeGame();
+        }
+    }
 
+    public void playerDisconnectHandler() {
+        if (!pauseState)
+            pauseGame();
+    }
+
+    public void playerReconnectHandler() {
+        if (pauseState)
+            resumeGame();
+    }
+
+    public void pauseGame() {
+        pauseResume.setText(">");
+        pauseState = true;
+        Toast.makeText(getApplicationContext(), "Game paused", Toast.LENGTH_LONG).show();
+    }
+
+    public void resumeGame() {
+        pauseResume.setText("=");
+        pauseState = false;
+        Toast.makeText(getApplicationContext(), "Game resumed", Toast.LENGTH_LONG).show();
     }
 
 }

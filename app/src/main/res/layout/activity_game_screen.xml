@@ -287,4 +287,14 @@
         android:layout_alignStart="@+id/canadian9"
         android:onClick="canadianSelected"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/secondary"
+        android:text="="
+        android:id="@+id/pauseResumeButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/canadian0"
+        android:onClick="pauseAndResume" />
+
 </RelativeLayout>

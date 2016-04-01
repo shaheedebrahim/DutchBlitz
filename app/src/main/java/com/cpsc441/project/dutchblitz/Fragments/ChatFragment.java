@@ -56,8 +56,27 @@ public class ChatFragment extends DialogFragment {
     }
 
     public void addMessage(String msg) {
+        if (msg.length() >= 2 && msg.startsWith("/w")) {
+            privateMessage(msg);
+        } else
+            publicMessage(msg);
+    }
+
+    public void publicMessage(String msg) {
         messages.add(username + ": " + msg);
         adapter.notifyDataSetChanged();
+    }
+
+    public void privateMessage(String msg) {
+        //Check username valid send a message to client
+        String suppliedUsername = msg.split(" ")[1];
+
+        boolean valid = true;
+        if (valid) {
+            messages.add("To [" + suppliedUsername + "]: " + msg.substring(4 + suppliedUsername.length(), msg.length()));
+            adapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override

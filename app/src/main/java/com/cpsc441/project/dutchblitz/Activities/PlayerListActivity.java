@@ -19,29 +19,16 @@ public class PlayerListActivity extends Activity {
         setContentView(R.layout.activity_player_list);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setNames();
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, playerNames);
 
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
     }
 
-    public void setNames() {
-        playerNames.add("Sean");
-        playerNames.add("Kendra");
-        playerNames.add("Shaheed");
-        playerNames.add("Sean");
-        playerNames.add("Kendra");
-        playerNames.add("Shaheed");
-        playerNames.add("Sean");
-        playerNames.add("Kendra");
-        playerNames.add("Shaheed");
-        playerNames.add("Sean");
-        playerNames.add("Kendra");
-        playerNames.add("Shaheed");
-        playerNames.add("Sean");
-        playerNames.add("Kendra");
-        playerNames.add("Shahedsfasdfed");
+
+    public void addName(String name) {
+        playerNames.add(name);
     }
 
 
