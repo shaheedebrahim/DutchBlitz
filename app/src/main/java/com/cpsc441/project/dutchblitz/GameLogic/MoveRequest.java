@@ -40,6 +40,7 @@ public class MoveRequest implements Runnable {
         while(!terminated){
             if(myCard != null && placeIndex != -1){
                 System.out.println("Both values set");
+
                 //Unselect buttons
                 //Send Message to Server
                 //If move approved update piles

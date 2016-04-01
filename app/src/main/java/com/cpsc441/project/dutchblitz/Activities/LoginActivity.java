@@ -27,6 +27,7 @@ public class LoginActivity extends Activity {
     public boolean success = false;
     EditText usernameText;
     EditText passwordText;
+    public String id;
 
     public final ReentrantLock lock = new ReentrantLock();
 
@@ -76,6 +77,7 @@ public class LoginActivity extends Activity {
             if (success) {
                 Intent intent = new Intent(this, PlayerHomeActivity.class);
                 intent.putExtra("message", username);
+                intent.putExtra("id", id);
                 startActivity(intent);
             }
             else Toast.makeText(getApplicationContext(), "Incorrect credentials", Toast.LENGTH_LONG).show();
