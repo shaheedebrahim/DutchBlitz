@@ -1,16 +1,22 @@
 package com.cpsc441.project.dutchblitz.Activities;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cpsc441.project.dutchblitz.Fragments.ChatFragment;
 import com.cpsc441.project.dutchblitz.Fragments.InviteFriendFragment;
 import com.cpsc441.project.dutchblitz.R;
+import com.cpsc441.project.dutchblitz.WaitingRoomService;
 
 import java.util.ArrayList;
 
@@ -22,6 +28,16 @@ public class WaitingRoomActivity extends Activity {
     String mePlayerUsername;
     String id;
     String roomName;
+
+    public static String JOIN_ACTIVITY = "com.domain.action.JOIN_UI";
+    private BroadcastReceiver bcast = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            Log.d("WROOM: ", "RECEIVED");
+            if (intent.getAction().equals(JOIN_ACTIVITY)) {
+                Toast.makeText(getApplicationContext(), "Good", Toast.LENGTH_LONG).show();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +58,14 @@ public class WaitingRoomActivity extends Activity {
 
         ListView listView = (ListView) findViewById(R.id.currentPlayers);
         listView.setAdapter(adapter);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(JOIN_ACTIVITY);
+        this.registerReceiver(bcast, filter);
+
+        Intent messIntent = new Intent(this, WaitingRoomService.class);
+        startService(messIntent);
+        Log.d("TEST: ", "a;slkdfjlasdjflskdfjlskdfj");
     }
 
 

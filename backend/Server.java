@@ -134,7 +134,8 @@ public class Server {
                                     else bytesSent = send(cchannel, inBuffer, "0");
                                     break;
                                 case 1:
-                                    if (split[1].equals("0")) {
+                                    if (split[2].equals("0")) {
+                                        System.out.println("test");
                                         if (!gameList.containsKey(split[1])) {
                                             gameList.put(split[1], new ArrayList<Integer>());
                                             gameList.get(split[1]).add(fields[2]);

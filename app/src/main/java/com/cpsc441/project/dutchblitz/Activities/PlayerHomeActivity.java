@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cpsc441.project.dutchblitz.Fragments.CreateRoomDialogFragment;
 import com.cpsc441.project.dutchblitz.Fragments.ObserveFragment;
 import com.cpsc441.project.dutchblitz.R;
 
@@ -173,7 +172,7 @@ public class PlayerHomeActivity extends Activity {
                                     Intent i = new Intent(getActivity(), WaitingRoomActivity.class);
                                     i.putExtra("message", roomName.getText().toString());
                                     i.putExtra("username", username);
-                                    i.putExtra("id", id);
+                                    i.putExtra("id", idm);
                                     startActivity(i);
                                 }
                                 else

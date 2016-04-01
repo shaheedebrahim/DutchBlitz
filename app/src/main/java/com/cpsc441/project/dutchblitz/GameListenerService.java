@@ -18,7 +18,7 @@ public class GameListenerService extends IntentService {
 
     protected void onHandleIntent(Intent intent) {
         try {
-            Socket sock = sock = new Socket("192.168.56.1", 1235);
+            Socket sock = new Socket("192.168.56.1", 1235);
             DataOutputStream out = new DataOutputStream(sock.getOutputStream());
             BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             String line = "";
