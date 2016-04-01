@@ -30,6 +30,4 @@ public class PlayerListActivity extends Activity {
     public void addName(String name) {
         playerNames.add(name);
     }
-
-
 }

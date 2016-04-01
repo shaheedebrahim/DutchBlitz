@@ -70,7 +70,7 @@ public class ChatFragment extends DialogFragment {
     public void privateMessage(String msg) {
         //Check username valid send a message to client
         String suppliedUsername = msg.split(" ")[1];
-
+        //Check if username is valid, then send message to that user only
         boolean valid = true;
         if (valid) {
             messages.add("To [" + suppliedUsername + "]: " + msg.substring(4 + suppliedUsername.length(), msg.length()));

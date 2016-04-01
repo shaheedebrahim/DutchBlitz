@@ -27,6 +27,7 @@ public class LoginActivity extends Activity {
     public boolean success = false;
     EditText usernameText;
     EditText passwordText;
+    public String id;
 
     public final ReentrantLock lock = new ReentrantLock();
 
@@ -69,10 +70,15 @@ public class LoginActivity extends Activity {
         String password = passwordText.getText().toString();
 
         new LoginTask(8).execute(username, password);
+        try {
+            Thread.sleep(500);
+        }
+        catch(InterruptedException e) {
+            e.printStackTrace();
+        }
 
         lock.lock();
         try {
-            success = true;
             if (success) {
                 Intent intent = new Intent(this, PlayerHomeActivity.class);
                 intent.putExtra("message", username);
@@ -91,10 +97,15 @@ public class LoginActivity extends Activity {
         String password = passwordText.getText().toString();
 
         new LoginTask(11).execute(username, password);
+        try {
+            Thread.sleep(500);
+        }
+        catch(InterruptedException e) {
+            e.printStackTrace();
+        }
 
         lock.lock();
         try {
-            success = true;
             if (success) {
                 Intent intent = new Intent(this, PlayerHomeActivity.class);
                 intent.putExtra("message", username);
@@ -116,7 +127,6 @@ public class LoginActivity extends Activity {
         private int headVal;
 
         public LoginTask(int h) {
-            lock.lock();
             headVal = h;
         }
 
@@ -126,6 +136,7 @@ public class LoginActivity extends Activity {
 
         @Override
         protected String doInBackground(String... params) {
+            lock.lock();
             Log.d("init", "test");
             try {
                 sock = new Socket(/*"162.246.157.144"*/"192.168.56.1", 1234);
@@ -181,6 +192,7 @@ public class LoginActivity extends Activity {
 
             if (!res.equals("0")) {
                 success = true;
+                id = res;
                 // TODO: Save user identifier somehow
             }
 
