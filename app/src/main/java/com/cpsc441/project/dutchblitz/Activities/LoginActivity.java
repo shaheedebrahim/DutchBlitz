@@ -119,7 +119,7 @@ public class LoginActivity extends Activity {
         }
     }
 
-    private class LoginTask extends AsyncTask<String, Void, String> {
+    private class LoginTask extends AsyncTask<String, Void, Void> {
         final int PACKET_SIZE = 64;
 
         private Socket sock = null;
@@ -136,7 +136,7 @@ public class LoginActivity extends Activity {
         }
 
         @Override
-        protected String doInBackground(String... params) {
+        protected Void doInBackground(String... params) {
             lock.lock();
             Log.d("init", "test");
             try {
@@ -178,11 +178,19 @@ public class LoginActivity extends Activity {
             }
 
             Log.d("Android: ", "Login");
-            return resp;
+
+            if (!resp.equals("0")) {
+                success = true;
+                id = resp;
+            }
+
+            lock.unlock();
+
+            return null;
         }
 
         @Override
-        protected void onPostExecute(String res) {
+        protected void onPostExecute(Void v) {
             Log.d("Android: ", "Exchange done");
             try {
                 sock.close();
@@ -190,14 +198,6 @@ public class LoginActivity extends Activity {
             catch (IOException e) {
                 e.printStackTrace();
             }
-
-            if (!res.equals("0")) {
-                success = true;
-                id = res;
-                // TODO: Save user identifier somehow
-            }
-
-            lock.unlock();
         }
     }
 }
