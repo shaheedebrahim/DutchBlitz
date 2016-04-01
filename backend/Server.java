@@ -15,13 +15,12 @@ public class Server {
     public static int BUFFERSIZE = 32;
 
     private static DatabaseDriver db;
-
-    public Server() {
-        db = new DatabaseDriver();
-    }
+    private static HashMap<Integer, String> activePlayers = new HashMap<>();
+    private static HashMap<String, ArrayList<Integer>> gameList = new HashMap<>();
 
     public static void main(String args[]) throws Exception
     {
+        db = new DatabaseDriver();
         if (args.length != 1)
         {
             System.out.println("Usage: UDPServer <Listening Port>");
@@ -112,8 +111,8 @@ public class Server {
                             line = cBuffer.toString();
                             String[] split = line.split("\n");
                             System.out.println("Header: " + split[0]);
-                            System.out.println("Username: " + split[1]);
-                            System.out.println("Password: " + split[2]);
+                            System.out.println("Game name: " + split[1]);
+                            System.out.println("Mode: " + split[2]);
 
                             int[] fields = parseHeader(Long.parseLong(split[0]));
                             System.out.printf("%d %d %d\n", fields[0], fields[1], fields[2]);
@@ -122,9 +121,8 @@ public class Server {
                                 case 0:
                                     //login
                                     if(db.checkExistingUser(split[1])){
-                                        boolean valid = false;
                                         // Check for validity of username/password combo
-
+                                        boolean valid = db.validatePassword(split[1],split[2]);
                                         if (valid) {
                                             Random rand = new Random();
                                             int id = rand.nextInt(65535) + 1;
@@ -136,12 +134,24 @@ public class Server {
                                     else bytesSent = send(cchannel, inBuffer, "0");
                                     break;
                                 case 1:
-                                    // join/leave
+                                    if (split[1].equals("0")) {
+                                        if (!gameList.containsKey(split[1])) {
+                                            gameList.put(split[1], new ArrayList<Integer>());
+                                            gameList.get(split[1]).add(fields[2]);
+                                            activePlayers.put(fields[2], split[1]);
+
+                                            bytesSent = send(cchannel, inBuffer, "1");
+                                        } else bytesSent = send(cchannel, inBuffer, "0");
+                                    }
+                                    else {
+
+                                    }
                                     break;
                                 case 2:
                                     // chat
                                     break;
                                 case 3:
+                                    System.out.println(db);
                                     if(!db.checkExistingUser(split[1])){
                                         db.addNewUser(split[1],split[2]);
 
