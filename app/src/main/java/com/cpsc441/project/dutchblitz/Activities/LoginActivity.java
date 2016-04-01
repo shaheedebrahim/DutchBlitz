@@ -99,7 +99,7 @@ public class LoginActivity extends Activity {
 
         new LoginTask(11).execute(username, password);
         try {
-            Thread.sleep(500);
+            Thread.sleep(200);
         }
         catch(InterruptedException e) {
             e.printStackTrace();
@@ -107,6 +107,7 @@ public class LoginActivity extends Activity {
 
         lock.lock();
         try {
+            //success = true;
             if (success) {
                 Intent intent = new Intent(this, PlayerHomeActivity.class);
                 intent.putExtra("message", username);
