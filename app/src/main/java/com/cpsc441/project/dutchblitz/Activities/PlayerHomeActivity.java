@@ -157,7 +157,7 @@ public class PlayerHomeActivity extends Activity {
                     .setPositiveButton(R.string.create, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            roomName = (EditText) getDialog().findViewById(R.id.joinRoom);
+                            roomName = (EditText) getDialog().findViewById(R.id.room_name);
                             String body = roomName.getText().toString(), resp = "";
 
                             new CreateRoomTask().execute(body, idm);
@@ -251,7 +251,7 @@ public class PlayerHomeActivity extends Activity {
                 e.printStackTrace();
             }
 
-            Log.d("Android: ", "Login");
+            Log.d("Android: ", "Create Room");
 
             if (!resp.equals("0")) {
                 createSuccess = true;
