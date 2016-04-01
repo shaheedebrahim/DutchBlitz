@@ -5,7 +5,11 @@
  */
 
 import java.io.*;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.*;
+import java.net.InetAddress;
 import java.nio.*;
 import java.nio.channels.*;
 import java.nio.charset.*;
@@ -15,6 +19,7 @@ public class Server {
     public static int BUFFERSIZE = 32;
 
     private static DatabaseDriver db;
+    private static HashMap<Integer, InetAddress> ipMap = new HashMap<>();
     private static HashMap<Integer, String> activePlayers = new HashMap<>();
     private static HashMap<String, ArrayList<Integer>> gameList = new HashMap<>();
 
@@ -134,18 +139,32 @@ public class Server {
                                     else bytesSent = send(cchannel, inBuffer, "0");
                                     break;
                                 case 1:
+                                    // create/join game
+                                    InetAddress addr = socket.getInetAddress();
+                                    // Create game condition
                                     if (split[2].equals("0")) {
-                                        System.out.println("test");
                                         if (!gameList.containsKey(split[1])) {
                                             gameList.put(split[1], new ArrayList<Integer>());
                                             gameList.get(split[1]).add(fields[2]);
                                             activePlayers.put(fields[2], split[1]);
+                                            ipMap.put(fields[2], addr);
 
                                             bytesSent = send(cchannel, inBuffer, "1");
                                         } else bytesSent = send(cchannel, inBuffer, "0");
                                     }
+                                    // Join game condition
                                     else {
-
+                                        if (gameList.containsKey(split[1])) {
+                                            ArrayList<Integer> playerList = gameList.get(split[1]);
+                                            for (int i = 0; i < playerList.size(); i++) {
+                                                Socket sock = new Socket(ipMap.get(playerList.get(i)), 1235);
+                                                sockSend(sock, "new user");
+                                            }
+                                            playerList.add(fields[2]);
+                                            activePlayers.put(fields[2], split[1]);
+                                            ipMap.put(fields[2], addr);
+                                        }
+                                        else bytesSent = send(cchannel, inBuffer, "0");
                                     }
                                     break;
                                 case 2:
@@ -216,5 +235,17 @@ public class Server {
         buff.put((message + "\n").getBytes());
         buff.flip();
         return cchannel.write(buff);
+    }
+
+    private static void sockSend(Socket sock, String message) {
+        try {
+            DataOutputStream out = new DataOutputStream(sock.getOutputStream());
+            out.writeBytes(message + "\n");
+            sock.close();
+            out.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -34,7 +34,9 @@ public class WaitingRoomActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             Log.d("WROOM: ", "RECEIVED");
             if (intent.getAction().equals(JOIN_ACTIVITY)) {
-                Toast.makeText(getApplicationContext(), "Good", Toast.LENGTH_LONG).show();
+                String uname = intent.getStringExtra("username");
+                Toast.makeText(getApplicationContext(), "Player " + uname + " joined", Toast.LENGTH_LONG).show();
+                addName(uname);
             }
         }
     };

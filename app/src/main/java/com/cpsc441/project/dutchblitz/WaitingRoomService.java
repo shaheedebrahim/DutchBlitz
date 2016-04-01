@@ -15,27 +15,25 @@ import java.net.UnknownHostException;
 import java.nio.Buffer;
 
 public class WaitingRoomService extends IntentService {
+    private Socket sock;
+
     public WaitingRoomService() {
         super("WaitingRoomService");
     }
 
     protected void onHandleIntent(Intent intent) {
-        Intent intenti = new Intent();
-        intenti.setAction(WaitingRoomActivity.JOIN_ACTIVITY);
-        sendBroadcast(intenti);
-        Log.d("Test: ", "Should see this");
         try {
-            Socket sock = new Socket("162.246.157.144", 1235);
+            sock = new Socket("162.246.157.144", 1235);
             DataOutputStream out = new DataOutputStream(sock.getOutputStream());
             BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             String line = "";
 
             while (!(line = in.readLine()).equals("end")) {
-
                 // TODO: Process message body and broadcast to client
-                /*Intent intenti = new Intent();
+                Intent intenti = new Intent();
                 intenti.setAction(WaitingRoomActivity.JOIN_ACTIVITY);
-                sendBroadcast(intenti);*/
+                intenti.putExtra("username", line);
+                sendBroadcast(intenti);
             }
         }
         catch (UnknownHostException e) {
@@ -43,6 +41,16 @@ public class WaitingRoomService extends IntentService {
             e.printStackTrace();
         }
         catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        try {
+            sock.close();
+        }
+        catch(IOException e) {
             e.printStackTrace();
         }
     }
