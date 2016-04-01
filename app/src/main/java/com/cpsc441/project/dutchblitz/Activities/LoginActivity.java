@@ -74,6 +74,7 @@ public class LoginActivity extends Activity {
 
         lock.lock();
         try {
+            success = true;
             if (success) {
                 Intent intent = new Intent(this, PlayerHomeActivity.class);
                 intent.putExtra("message", username);

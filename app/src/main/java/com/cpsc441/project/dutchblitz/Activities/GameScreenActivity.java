@@ -60,7 +60,7 @@ public class GameScreenActivity extends Activity {
         setPilesText(myCanadian, canadianPiles);
         setPileColour(myCanadian, canadianPiles);
 
-        mover = new MoveRequest();
+        mover = new MoveRequest(this);
         moveRequest = new Thread(mover);
         moveRequest.start();
 

@@ -12,9 +12,9 @@ public class MoveRequest implements Runnable {
     private int placeIndex;
     GameScreenActivity game;
 
- /*   public void MoveRequest(GameScreenActivity gsa){
+    public MoveRequest(GameScreenActivity gsa){
         game = gsa;
-    }*/
+    }
 
     public void endGame(){
         terminated = true;
