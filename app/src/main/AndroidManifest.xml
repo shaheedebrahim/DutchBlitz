@@ -68,6 +68,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.PlayerHomeActivity" />
         </activity>
+
+        <service android:name=".WaitingRoomService"></service>
     </application>
 
 </manifest>
