@@ -10,12 +10,14 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.Buffer;
 
 public class WaitingRoomService extends IntentService {
-    private Socket sock;
+    private ServerSocket sock;
+    private Socket cSock;
 
     public WaitingRoomService() {
         super("WaitingRoomService");
@@ -23,9 +25,10 @@ public class WaitingRoomService extends IntentService {
 
     protected void onHandleIntent(Intent intent) {
         try {
-            sock = new Socket("162.246.157.144", 1235);
-            DataOutputStream out = new DataOutputStream(sock.getOutputStream());
-            BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+            sock = new ServerSocket(1235);
+            cSock = sock.accept();
+            DataOutputStream out = new DataOutputStream(cSock.getOutputStream());
+            BufferedReader in = new BufferedReader(new InputStreamReader(cSock.getInputStream()));
             String line = "";
 
             while (!(line = in.readLine()).equals("end")) {
@@ -49,6 +52,7 @@ public class WaitingRoomService extends IntentService {
     public void onDestroy() {
         try {
             sock.close();
+            cSock.close();
         }
         catch(IOException e) {
             e.printStackTrace();
