@@ -1,18 +1,29 @@
 package com.cpsc441.project.dutchblitz.Activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cpsc441.project.dutchblitz.Fragments.CreateRoomDialogFragment;
-import com.cpsc441.project.dutchblitz.Fragments.JoinRoomFragment;
 import com.cpsc441.project.dutchblitz.Fragments.ObserveFragment;
 import com.cpsc441.project.dutchblitz.R;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class PlayerHomeActivity extends Activity {
@@ -89,4 +100,60 @@ public class PlayerHomeActivity extends Activity {
         observeFragment.show(getFragmentManager(), "Frag");
     }
 
+    public static class JoinRoomFragment extends DialogFragment {
+
+        EditText roomName;
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            // Get the layout inflater
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            final String idm = getArguments().getString("id");
+
+            builder.setView(inflater.inflate(R.layout.fragment_join_room, null))
+                    .setPositiveButton(R.string.join_room_text, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            roomName = (EditText) getDialog().findViewById(R.id.joinRoom);
+                            String body = roomName.getText().toString(), resp = "";
+
+                            long header = 0;
+                            header = header | 9;
+                            header = header << 8;
+                            header = header | body.length(); header = header << 16;
+                            header = header | Integer.parseInt(idm);
+
+                            try {
+                                Socket sock = new Socket(/*"162.246.157.144"*/"192.168.56.1", 1234);
+                                DataOutputStream out = new DataOutputStream(sock.getOutputStream());
+                                BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+
+                                // Send credentials to server - IP address is currently hard-coded
+                                out.writeBytes(String.valueOf(header) + "\n" + body + "\n");
+
+                                resp = in.readLine();
+                            }
+                            catch (UnknownHostException e) {
+                                System.out.println("Attempted to contact unknown host.");
+                                e.printStackTrace();
+                            }
+                            catch (IOException e) {
+                                System.out.println("Failed to send packet.");
+                                e.printStackTrace();
+                            }
+
+
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            JoinRoomFragment.this.getDialog().cancel();
+                        }
+                    });
+
+            return builder.create();
+        }
+    }
 }
