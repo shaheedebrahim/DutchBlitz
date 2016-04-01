@@ -140,7 +140,7 @@ public class LoginActivity extends Activity {
             lock.lock();
             Log.d("init", "test");
             try {
-                sock = new Socket(/*"162.246.157.144"*/"192.168.56.1", 1234);
+                sock = new Socket("162.246.157.144", 1234);
                 Log.d("init: ", sock.toString());
                 out = new DataOutputStream(sock.getOutputStream());
                 in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
