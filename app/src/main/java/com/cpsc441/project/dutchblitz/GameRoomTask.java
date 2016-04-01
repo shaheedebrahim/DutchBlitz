@@ -65,8 +65,6 @@ public class GameRoomTask extends AsyncTask<String, Void, String> {
             System.out.println("Failed to send packet.");
             e.printStackTrace();
         }
-
-        Log.d("Android: ", "Login");
         return resp;
     }
 
