@@ -5,13 +5,16 @@
  */
 
 import java.io.*;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.*;
 import java.nio.channels.*;
+import java.nio.channels.SocketChannel;
 import java.nio.charset.*;
 import java.util.*;
 
@@ -19,7 +22,9 @@ public class Server {
     public static int BUFFERSIZE = 32;
 
     private static DatabaseDriver db;
-    private static HashMap<Integer, InetAddress> ipMap = new HashMap<>();
+    //private static HashMap<Integer, InetAddress> ipMap = new HashMap<>();
+    private static HashMap<Integer, String> uNames = new HashMap<>();
+    private static HashMap<Integer, SocketChannel> socketMap = new HashMap<>();
     private static HashMap<Integer, String> activePlayers = new HashMap<>();
     private static HashMap<String, ArrayList<Integer>> gameList = new HashMap<>();
 
@@ -117,7 +122,7 @@ public class Server {
                             String[] split = line.split("\n");
                             System.out.println("Header: " + split[0]);
                             System.out.println("Game name: " + split[1]);
-                            System.out.println("Mode: " + split[2]);
+                            //System.out.println("Mode: " + split[2]);
 
                             int[] fields = parseHeader(Long.parseLong(split[0]));
                             System.out.printf("%d %d %d\n", fields[0], fields[1], fields[2]);
@@ -128,9 +133,10 @@ public class Server {
                                     if(db.checkExistingUser(split[1])){
                                         // Check for validity of username/password combo
                                         boolean valid = db.validatePassword(split[1],split[2]);
-                                        if (valid) {
+                                        if (valid && !uNames.containsValue(split[1])) {
                                             Random rand = new Random();
                                             int id = rand.nextInt(65535) + 1;
+                                            uNames.put(id, split[1]);
 
                                             bytesSent = send(cchannel, inBuffer, String.valueOf(id));
                                         }
@@ -140,29 +146,31 @@ public class Server {
                                     break;
                                 case 1:
                                     // create/join game
-                                    InetAddress addr = socket.getInetAddress();
                                     // Create game condition
                                     if (split[2].equals("0")) {
                                         if (!gameList.containsKey(split[1])) {
                                             gameList.put(split[1], new ArrayList<Integer>());
                                             gameList.get(split[1]).add(fields[2]);
                                             activePlayers.put(fields[2], split[1]);
-                                            ipMap.put(fields[2], addr);
+                                            socketMap.put(fields[2], cchannel);
+                                            //ipMap.put(fields[2], addr);
 
                                             bytesSent = send(cchannel, inBuffer, "1");
+                                            //(new ServerThread(socket)).start();
                                         } else bytesSent = send(cchannel, inBuffer, "0");
                                     }
                                     // Join game condition
                                     else {
                                         if (gameList.containsKey(split[1])) {
                                             ArrayList<Integer> playerList = gameList.get(split[1]);
-                                            for (int i = 0; i < playerList.size(); i++) {
-                                                Socket sock = new Socket(ipMap.get(playerList.get(i)), 1235);
-                                                sockSend(sock, "new user");
-                                            }
+                                            broadCast(playerList, inBuffer, uNames.get(fields[2]));
+
                                             playerList.add(fields[2]);
                                             activePlayers.put(fields[2], split[1]);
-                                            ipMap.put(fields[2], addr);
+                                            socketMap.put(fields[2], cchannel);
+                                            //ipMap.put(fields[2], addr);
+                                            //(new ServerThread(socket)).start();
+                                            bytesSent = send(cchannel, inBuffer, "1");
                                         }
                                         else bytesSent = send(cchannel, inBuffer, "0");
                                     }
@@ -177,6 +185,7 @@ public class Server {
 
                                         Random rand = new Random();
                                         int id = rand.nextInt(65535) + 1;
+                                        uNames.put(id, split[1]);
 
                                         bytesSent = send(cchannel, inBuffer, String.valueOf(id));
                                     }
@@ -186,7 +195,13 @@ public class Server {
                                     // game update
                                     break;
                                 case 5:
-                                    // status request
+                                    if (split[1].equals("request_names")) {
+                                        ArrayList<Integer> playerList = gameList.get(activePlayers.get(fields[2]));
+                                        for (int i = 0; i < playerList.size(); i++) {
+                                            send(cchannel, inBuffer, uNames.get(playerList.get(i)));
+                                        }
+                                        send(cchannel, inBuffer, "0");
+                                    }
                                     break;
                                 default:
                                     break;
@@ -230,6 +245,7 @@ public class Server {
         return new int[] {messType, bodLength, state};
     }
 
+    // Sends a message on the given channel
     private static int send(SocketChannel cchannel, ByteBuffer buff, String message) throws IOException {
         buff = ByteBuffer.allocateDirect(BUFFERSIZE);
         buff.put((message + "\n").getBytes());
@@ -237,6 +253,14 @@ public class Server {
         return cchannel.write(buff);
     }
 
+    // Sends a message to the given list of players
+    private static void broadCast(ArrayList<Integer> players, ByteBuffer buff, String message) throws IOException {
+        for (int i = 0; i < players.size(); i++) {
+            send(socketMap.get(players.get(i)), buff, message);
+        }
+    }
+
+    // Sends a message on the given socket
     private static void sockSend(Socket sock, String message) {
         try {
             DataOutputStream out = new DataOutputStream(sock.getOutputStream());
@@ -246,6 +270,61 @@ public class Server {
         }
         catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    // Used to handle persistent TCP connections between server and client
+    private class ServerThread extends Thread {
+        private Socket socket;
+        private BufferedReader in;
+        private DataOutputStream out;
+
+        public ServerThread(Socket s) {
+            socket = s;
+        }
+
+        public void listen() {
+            try {
+                boolean terminated = false;
+
+                while (!terminated) {
+                    String header = in.readLine();
+                    int[] fields = parseHeader(Long.parseLong(header));
+
+
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void close() {
+            try {
+                socket.close();
+                in.close();
+                out.close();
+            }
+            catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void run() {
+            try {
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                out = new DataOutputStream(socket.getOutputStream());
+            }
+            catch(UnknownHostException e) {
+                e.printStackTrace();
+            }
+            catch(IOException e) {
+                e.printStackTrace();
+            }
+
+            listen();
+
+            close();
         }
     }
 }

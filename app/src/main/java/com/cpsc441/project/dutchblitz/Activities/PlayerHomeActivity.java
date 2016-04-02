@@ -38,7 +38,7 @@ public class PlayerHomeActivity extends Activity {
     String id;
 
     public static final ReentrantLock lock = new ReentrantLock();
-    public static boolean createSuccess = false;
+    public static boolean createSuccess = false, joinSuccess = false;
     public static Context appCon;
 
     @Override
@@ -119,13 +119,37 @@ public class PlayerHomeActivity extends Activity {
             // Get the layout inflater
             LayoutInflater inflater = getActivity().getLayoutInflater();
 
+            final String username = getArguments().getString("username");
             final String idm = getArguments().getString("id");
 
             builder.setView(inflater.inflate(R.layout.fragment_join_room, null))
                     .setPositiveButton(R.string.join_room_text, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
+                            roomName = (EditText) getDialog().findViewById(R.id.joinRoom);
+                            String body = roomName.getText().toString();
 
+                            new CreateRoomTask("1").execute(body, idm);
+
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } finally {
+                                lock.lock();
+                                if (joinSuccess) {
+                                    Toast.makeText(appCon, "Joined", Toast.LENGTH_LONG).show();
+                                    Intent i = new Intent(getActivity(), WaitingRoomActivity.class);
+                                    i.putExtra("message", roomName.getText().toString());
+                                    i.putExtra("username", username);
+                                    i.putExtra("id", idm);
+                                    startActivity(i);
+                                }
+                                else
+                                    Toast.makeText(appCon, "Failed", Toast.LENGTH_LONG).show();
+                                createSuccess = false;
+                                lock.unlock();
+                            }
                         }
                     })
                     .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -157,9 +181,9 @@ public class PlayerHomeActivity extends Activity {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             roomName = (EditText) getDialog().findViewById(R.id.room_name);
-                            String body = roomName.getText().toString(), resp = "";
+                            String body = roomName.getText().toString();
 
-                            new CreateRoomTask().execute(body, idm);
+                            new CreateRoomTask("0").execute(body, idm);
 
                             try {
                                 Thread.sleep(500);
@@ -199,8 +223,10 @@ public class PlayerHomeActivity extends Activity {
         private Socket sock = null;
         private DataOutputStream out = null;
         private BufferedReader in = null;
+        private String mode;
 
-        public CreateRoomTask() {
+        public CreateRoomTask(String m) {
+            mode = m;
         }
 
         @Override
@@ -227,7 +253,7 @@ public class PlayerHomeActivity extends Activity {
                 e.printStackTrace();
             }
 
-            String body = params[0] + "\n0\n", idm = params[1], resp = "";
+            String body = params[0] + "\n" + mode + "\n", idm = params[1], resp = "";
 
             long header = 0;
             header = header | 9;
@@ -253,7 +279,9 @@ public class PlayerHomeActivity extends Activity {
             Log.d("Android: ", "Create Room");
 
             if (!resp.equals("0")) {
-                createSuccess = true;
+                if (mode.equals("0"))
+                    createSuccess = true;
+                else joinSuccess = true;
             }
 
             lock.unlock();

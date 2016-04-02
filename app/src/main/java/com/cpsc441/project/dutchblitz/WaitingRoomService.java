@@ -16,8 +16,7 @@ import java.net.UnknownHostException;
 import java.nio.Buffer;
 
 public class WaitingRoomService extends IntentService {
-    private ServerSocket sock;
-    private Socket cSock;
+    private Socket sock;
 
     public WaitingRoomService() {
         super("WaitingRoomService");
@@ -25,13 +24,43 @@ public class WaitingRoomService extends IntentService {
 
     protected void onHandleIntent(Intent intent) {
         try {
-            sock = new ServerSocket(1235);
-            cSock = sock.accept();
-            DataOutputStream out = new DataOutputStream(cSock.getOutputStream());
-            BufferedReader in = new BufferedReader(new InputStreamReader(cSock.getInputStream()));
-            String line = "";
+            Log.d("WAITINGSERVICE: ", "INITIALIZED");
+            sock = new Socket("162.246.157.144", 1234);
+            Log.d("Server: ", "START");
+            DataOutputStream out = new DataOutputStream(sock.getOutputStream());
+            BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+            String line = "", body = "request_names\n", idm = intent.getStringExtra("id");
 
-            while (!(line = in.readLine()).equals("end")) {
+            long header = 0;
+            header = header | 12;
+            header = header << 8;
+            header = header | body.length(); header = header << 16;
+            header = header | Integer.parseInt(idm);
+
+            try {
+                // Send credentials to server - IP address is currently hard-coded
+                out.writeBytes(String.valueOf(header) + "\n" + body);
+                String resp = "";
+                Log.d("WAITINGSERVICE: ", "STARTED");
+                while ((resp  = in.readLine()) != null && !(resp).equals("0")) {
+                    Intent intenti = new Intent();
+                    intenti.setAction(WaitingRoomActivity.JOIN_ACTIVITY);
+                    intenti.putExtra("username", resp);
+                    Log.d("WAITINGSERVICE-ADD: ", resp);
+                    sendBroadcast(intenti);
+                }
+                Log.d("WAITINGSERVICE: ", "FINISHED");
+            }
+            catch (UnknownHostException e) {
+                System.out.println("Attempted to contact unknown host.");
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                System.out.println("Failed to send packet.");
+                e.printStackTrace();
+            }
+
+            while ((line = in.readLine()) != null && !(line).equals("end")) {
                 // TODO: Process message body and broadcast to client
                 Intent intenti = new Intent();
                 intenti.setAction(WaitingRoomActivity.JOIN_ACTIVITY);
@@ -52,7 +81,6 @@ public class WaitingRoomService extends IntentService {
     public void onDestroy() {
         try {
             sock.close();
-            cSock.close();
         }
         catch(IOException e) {
             e.printStackTrace();

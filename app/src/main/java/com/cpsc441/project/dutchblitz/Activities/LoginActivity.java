@@ -193,7 +193,10 @@ public class LoginActivity extends Activity {
         protected void onPostExecute(Void v) {
             Log.d("Android: ", "Exchange done");
             try {
+                out.flush();
                 sock.close();
+                in.close();
+                out.close();
             }
             catch (IOException e) {
                 e.printStackTrace();
