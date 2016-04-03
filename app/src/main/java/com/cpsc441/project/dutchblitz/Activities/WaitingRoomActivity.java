@@ -46,6 +46,7 @@ public class WaitingRoomActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             Log.d("WROOM: ", "RECEIVED");
             if (intent.getAction().equals(JOIN_ACTIVITY)) {
+                Log.d("WRA: ", intent.getAction());
                 String uname = intent.getStringExtra("username");
                 Toast.makeText(getApplicationContext(), "Player " + uname + " joined", Toast.LENGTH_LONG).show();
                 addName(uname);
@@ -95,12 +96,14 @@ public class WaitingRoomActivity extends Activity {
 
     @Override
     public void onResume() {
+        Log.d("WAITINGSERVICE: ", "RESUME");
         startWaitingRoomService(id, false);
         super.onResume();
     }
 
     @Override
     public void onPause() {
+        Log.d("WAITINGSERVICE: ", "PAUSE");
         stopWaitingRoomService();
         super.onPause();
     }
@@ -141,6 +144,8 @@ public class WaitingRoomActivity extends Activity {
     }
 
     public void createChatWindowFrag(View view) {
+        stopWaitingRoomService();
+
         Bundle bundle = new Bundle();
         bundle.putString("username", mePlayerUsername);
         bundle.putString("id", id);

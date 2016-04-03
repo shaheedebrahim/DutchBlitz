@@ -154,7 +154,7 @@ public class Server {
                                             gameList.put(split[1], new ArrayList<Integer>());
                                             gameList.get(split[1]).add(fields[2]);
                                             activePlayers.put(fields[2], split[1]);
-                                            socketMap.put(fields[2], cchannel);
+                                            System.out.printf("Mapping socket %s\n", cchannel.getRemoteAddress());
                                             //ipMap.put(fields[2], addr);
 
                                             bytesSent = send(cchannel, inBuffer, "1");
@@ -169,7 +169,6 @@ public class Server {
 
                                             playerList.add(fields[2]);
                                             activePlayers.put(fields[2], split[1]);
-                                            socketMap.put(fields[2], cchannel);
                                             //ipMap.put(fields[2], addr);
                                             //(new ServerThread(socket)).start();
                                             bytesSent = send(cchannel, inBuffer, "1");
@@ -215,6 +214,8 @@ public class Server {
                                     // status messages
                                     if (split[1].equals("request_names")) {
                                         ArrayList<Integer> playerList = gameList.get(activePlayers.get(fields[2]));
+                                        socketMap.put(fields[2], cchannel);
+                                        System.out.printf("Mapping socket %s\n", cchannel.getRemoteAddress());
                                         for (int i = 0; i < playerList.size(); i++) {
                                             if (fields[2] != playerList.get(i)) {
                                                 send(cchannel, inBuffer, uNames.get(playerList.get(i)));
@@ -233,6 +234,7 @@ public class Server {
                                         else pList.remove(fields[2]);
                                     }
                                     else if (split[1].equals("start")) {
+                                        System.out.println(gameList.get(activePlayers.get(fields[2])));
                                         System.out.printf("Number of players: %d\n", gameList.get(activePlayers.get(fields[2])).size());
                                         if (gameList.get(activePlayers.get(fields[2])).size() > 1)
                                             send(cchannel, inBuffer, "1");
@@ -301,6 +303,8 @@ public class Server {
     private static void broadCast(ArrayList<Integer> players, ByteBuffer buff, String message) throws IOException {
         for (int i = 0; i < players.size(); i++) {
             send(socketMap.get(players.get(i)), buff, message);
+            System.out.printf("Send to %s\n", uNames.get(players.get(i)));
+            System.out.printf("Connected: %s on addr %s\n", socketMap.get(players.get(i)).isConnected(), socketMap.get(players.get(i)).getRemoteAddress());
         }
     }
 

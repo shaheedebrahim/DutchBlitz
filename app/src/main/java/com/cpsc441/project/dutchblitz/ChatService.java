@@ -34,6 +34,7 @@ public class ChatService extends IntentService {
             String line = "";
 
             while ((line = in.readLine()) != null && !(line).equals("end")) {
+                Log.d("CHAT SERVICE: ", "MESSAGE RECEIVED");
                 String message = in.readLine();
                 String uname = in.readLine();
                 Intent intenti = new Intent();

@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.cpsc441.project.dutchblitz.Activities.WaitingRoomActivity;
 import com.cpsc441.project.dutchblitz.ChatService;
 import com.cpsc441.project.dutchblitz.R;
 import com.cpsc441.project.dutchblitz.WaitingRoomService;
@@ -73,6 +75,10 @@ public class ChatFragment extends DialogFragment {
         Intent messIntent = new Intent(getActivity().getApplicationContext(), ChatService.class);
         getActivity().startService(messIntent);
 
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(CHAT_ACTIVITY);
+        getActivity().registerReceiver(bcast, filter);
+
         builder.setView(rootView)
                 .setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
                     @Override
@@ -81,6 +87,8 @@ public class ChatFragment extends DialogFragment {
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        Log.d("CHATFRAGMENT: ", "STARTED SERVICE AGAIN");
+                        ((WaitingRoomActivity) getActivity()).startWaitingRoomService(idm, false);
                         ChatFragment.this.getDialog().cancel();
                     }
                 });
@@ -124,8 +132,9 @@ public class ChatFragment extends DialogFragment {
                 public void onClick(View v) {
                     Boolean wantToCloseDialog = false;
                     //Do stuff, possibly set wantToCloseDialog to true then...
-                    if (wantToCloseDialog)
+                    if (wantToCloseDialog) {
                         dismiss();
+                    }
                     Log.d("CHAT SEND BUTTON: ", "PRESSED");
                     String message = chatText.getText().toString();
                     username = playerName;
@@ -161,10 +170,9 @@ public class ChatFragment extends DialogFragment {
             Log.d("init", "test");
             try {
                 sock = new Socket("162.246.157.144", 1234);
-                Log.d("init: ", sock.toString());
+                Log.d("SOCKET STATISTICS: ", String.valueOf(WaitingRoomActivity.sock.getLocalPort()));
                 out = new DataOutputStream(sock.getOutputStream());
                 in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-                Log.d("Init: ", "Success");
             }
             catch (UnknownHostException e) {
                 System.out.println("Failed to create client socket.");
@@ -205,7 +213,6 @@ public class ChatFragment extends DialogFragment {
 
         @Override
         protected void onPostExecute(Void v) {
-            Log.d("Android: ", "Exchange done");
             try {
                 sock.close();
             }

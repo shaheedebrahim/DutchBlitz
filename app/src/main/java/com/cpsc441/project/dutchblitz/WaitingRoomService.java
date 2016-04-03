@@ -24,9 +24,11 @@ public class WaitingRoomService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         try {
             Log.d("WAITINGSERVICE: ", "INITIALIZED");
-            if (WaitingRoomActivity.sock == null)
+            if (WaitingRoomActivity.sock == null) {
+                Log.d("WAITINGSERVICE: ", "New socket created");
                 WaitingRoomActivity.sock = new Socket("162.246.157.144", 1234);
-            Log.d("Server: ", "START");
+            }
+            Log.d("WAITING ROOM Server: ", "START");
             DataOutputStream out = new DataOutputStream(WaitingRoomActivity.sock.getOutputStream());
             BufferedReader in = new BufferedReader(new InputStreamReader(WaitingRoomActivity.sock.getInputStream()));
             String line = "", body = "request_names\n", idm = intent.getStringExtra("id"), start = intent.getStringExtra("start");

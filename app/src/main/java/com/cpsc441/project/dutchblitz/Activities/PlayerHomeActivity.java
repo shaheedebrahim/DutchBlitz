@@ -328,10 +328,8 @@ public class PlayerHomeActivity extends Activity {
             Log.d("init", "test");
             try {
                 sock = new Socket("162.246.157.144", 1234);
-                Log.d("init: ", sock.toString());
                 out = new DataOutputStream(sock.getOutputStream());
                 in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-                Log.d("Init: ", "Success");
             }
             catch (UnknownHostException e) {
                 System.out.println("Failed to create client socket.");
@@ -362,8 +360,6 @@ public class PlayerHomeActivity extends Activity {
                 System.out.println("Failed to send packet.");
                 e.printStackTrace();
             }
-
-            Log.d("Android: ", "Create Room");
 
             lock.unlock();
 
