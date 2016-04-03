@@ -77,11 +77,6 @@ public class ChatFragment extends DialogFragment {
                 .setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String message = chatText.getText().toString();
-                        username = playerName;
-                        addMessage(message);
-
-                        new ChatTask(message).execute(idm);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -131,7 +126,12 @@ public class ChatFragment extends DialogFragment {
                     //Do stuff, possibly set wantToCloseDialog to true then...
                     if (wantToCloseDialog)
                         dismiss();
-                    addMessage(chatText.getText().toString());
+                    Log.d("CHAT SEND BUTTON: ", "PRESSED");
+                    String message = chatText.getText().toString();
+                    username = playerName;
+                    addMessage(message);
+
+                    new ChatTask(message).execute(idm);
                     chatText.setText("");
                     //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
                 }
@@ -175,7 +175,7 @@ public class ChatFragment extends DialogFragment {
                 e.printStackTrace();
             }
 
-            String body = params[0] + "\n" + message + "\n", idm = params[1];
+            String body = message + "\n", idm = params[0];
 
             long header = 0;
             header = header | 10;

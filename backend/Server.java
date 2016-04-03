@@ -179,7 +179,7 @@ public class Server {
                                     break;
                                 case 2:
                                     // chat
-                                    String message = split[2];
+                                    String message = split[1];
                                     if (message.length() >= 2 && message.startsWith("/w")) {
                                         String[] parts = message.split(" ", 3);
                                         if (playerIds.containsKey(parts[1])) {
@@ -237,6 +237,11 @@ public class Server {
                                         if (gameList.get(activePlayers.get(fields[2])).size() > 1)
                                             send(cchannel, inBuffer, "1");
                                         else send(cchannel, inBuffer, "0");
+                                    }
+                                    else if (split[1].equals("logout")) {
+                                        System.out.printf("Logout %s\n", playerIds.get(uNames.get(fields[2])));
+                                        playerIds.remove(uNames.get(fields[2]));
+                                        uNames.remove(fields[2]);
                                     }
                                     break;
                                 case 5:
