@@ -23,8 +23,9 @@ public class WaitingRoomService extends IntentService {
         try {
             Log.d("WAITINGSERVICE: ", "INITIALIZED");
             if (WaitingRoomActivity.sock == null) {
-                Log.d("WAITINGSERVICE: ", "New socket created");
                 WaitingRoomActivity.sock = new Socket("162.246.157.144", 1234);
+                Log.d("WAITINGSERVICE: ", String.format("New socket created %d", WaitingRoomActivity.sock.getLocalPort()));
+
             }
             Log.d("WAITING ROOM Server: ", "START");
             DataOutputStream out = new DataOutputStream(WaitingRoomActivity.sock.getOutputStream());

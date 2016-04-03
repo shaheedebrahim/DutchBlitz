@@ -42,7 +42,7 @@ public class WaitingRoomActivity extends Activity {
     public static Socket sock;
 
     public static String JOIN_ACTIVITY = "com.domain.action.JOIN_UI";
-    private BroadcastReceiver bcast = new BroadcastReceiver() {
+    public BroadcastReceiver bcast = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             Log.d("WROOM: ", "RECEIVED");
             if (intent.getAction().equals(JOIN_ACTIVITY)) {
@@ -79,7 +79,6 @@ public class WaitingRoomActivity extends Activity {
         this.registerReceiver(bcast, filter);
 
         startWaitingRoomService(id, true);
-        Log.d("TEST: ", "a;slkdfjlasdjflskdfjlskdfj");
     }
 
     public void startWaitingRoomService(String id, boolean start) {

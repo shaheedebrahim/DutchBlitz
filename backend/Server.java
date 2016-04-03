@@ -191,7 +191,9 @@ public class Server {
                                     else {
                                         if (activePlayers.containsKey(fields[2])) {
                                             ArrayList<Integer> pList = gameList.get(activePlayers.get(fields[2]));
+                                            broadCast(pList, inBuffer, "chat");
                                             broadCast(pList, inBuffer, message);
+                                            broadCast(pList, inBuffer, uNames.get(fields[2]));
                                         }
                                     }
                                     break;
@@ -303,7 +305,7 @@ public class Server {
     private static void broadCast(ArrayList<Integer> players, ByteBuffer buff, String message) throws IOException {
         for (int i = 0; i < players.size(); i++) {
             send(socketMap.get(players.get(i)), buff, message);
-            System.out.printf("Send to %s\n", uNames.get(players.get(i)));
+            System.out.printf("Send to %s: %s\n", uNames.get(players.get(i)), message);
             System.out.printf("Connected: %s on addr %s\n", socketMap.get(players.get(i)).isConnected(), socketMap.get(players.get(i)).getRemoteAddress());
         }
     }

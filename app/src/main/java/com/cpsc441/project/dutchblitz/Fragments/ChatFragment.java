@@ -86,6 +86,10 @@ public class ChatFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         Log.d("CHATFRAGMENT: ", "STARTED SERVICE AGAIN");
                         ((WaitingRoomActivity) getActivity()).startWaitingRoomService(idm, false);
+                        getActivity().unregisterReceiver(bcast);
+                        IntentFilter filter = new IntentFilter();
+                        filter.addAction(WaitingRoomActivity.JOIN_ACTIVITY);
+                        getActivity().registerReceiver(((WaitingRoomActivity) getActivity()).bcast, filter);
                         ChatFragment.this.getDialog().cancel();
                     }
                 });
@@ -121,15 +125,18 @@ public class ChatFragment extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(CHAT_ACTIVITY);
-        getActivity().getApplicationContext().registerReceiver(bcast, filter);
+
     }
 
     @Override
     public void onStart() {
         super.onStart();    //super.onStart() is where dialog.show() is actually called on the underlying dialog, so we have to do it after this point
         AlertDialog d = (AlertDialog) getDialog();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(CHAT_ACTIVITY);
+        getActivity().registerReceiver(bcast, filter);
+
         if (d != null) {
             Button positiveButton = d.getButton(Dialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +184,6 @@ public class ChatFragment extends DialogFragment {
                 sock = new Socket("162.246.157.144", 1234);
                 Log.d("SOCKET STATISTICS: ", String.valueOf(WaitingRoomActivity.sock.getLocalPort()));
                 out = new DataOutputStream(sock.getOutputStream());
-                in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             }
             catch (UnknownHostException e) {
                 System.out.println("Failed to create client socket.");
