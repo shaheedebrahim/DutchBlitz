@@ -8,8 +8,8 @@ public class GameTable {
 	private int NUMBER_OF_CANADIAN_PILES = 12;
 	private int MAX_NUMBER_OF_CARDS = 10;
 	List<Stack<Card>> canadianPiles;
-	private MyPiles me;
-	Opponent[] opposition;
+    public MyPiles me;
+    Opponent[] opposition;
 
 	
 	
@@ -40,6 +40,21 @@ public class GameTable {
 		}
 		return temp;
 	}
+
+    public void moveCard(Card c, int index) {
+        int pile = -1;
+        for (int i = 0; i < me.myCards().length; i++) {
+            if (c.colour == (me.myCards()[i].colour) && c.value == me.myCards()[i].value) {
+                pile = i;
+                break;
+            }
+        }
+
+        if (pile != -1) {
+            canadianPiles.get(index).push(c);
+            me.removeCard(pile);
+        }
+    }
 
 	//Get user input.
 	//Send request for move

@@ -39,15 +39,15 @@ public class MyPiles {
 	//pileIndexFrom: 0,1,2 = one of the postPiles, 4 = blatzPile, 5 = woodPile
 	//return true, if game is still going, false if game is over
 	public boolean removeCard(int pileIndexFrom){
-		if(pileIndexFrom == 5){
+		if (pileIndexFrom == 0) {
 			woodPile.poll();
 		}else{
 			Card temp = blatzPile.pop();
 			if(blatzPile.isEmpty()){
 				return false;
 			}
-			if(pileIndexFrom < 4){
-				postPiles[pileIndexFrom] = temp;
+			if (pileIndexFrom > 1 && pileIndexFrom < 5) {
+				postPiles[pileIndexFrom - 2] = temp;
 			}
 		}
 		return true;

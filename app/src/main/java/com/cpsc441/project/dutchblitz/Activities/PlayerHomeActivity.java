@@ -284,6 +284,8 @@ public class PlayerHomeActivity extends Activity {
 
             Log.d("Android: ", "Create Room");
 
+            Log.d("RESPONSE", resp);
+
             if (!resp.equals("0")) {
                 if (mode.equals("0"))
                     createSuccess = true;

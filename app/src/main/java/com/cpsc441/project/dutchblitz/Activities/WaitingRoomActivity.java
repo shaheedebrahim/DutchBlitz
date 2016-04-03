@@ -134,6 +134,7 @@ public class WaitingRoomActivity extends Activity {
         }
 
         lock.lock();
+        startGameSuccess = true;
         if (startGameSuccess) {
             Intent i = new Intent(this, GameScreenActivity.class);
             i.putExtra("id", id);

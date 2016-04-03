@@ -202,9 +202,9 @@
         android:layout_height="wrap_content"
         android:text=" 0"
         android:id="@+id/canadian2"
+        android:onClick="canadianSelected"
         android:layout_below="@+id/canadian0"
-        android:layout_toEndOf="@+id/p2postPile0"
-        android:onClick="canadianSelected" />
+        android:layout_alignStart="@+id/canadian0" />
 
     <ToggleButton
         android:layout_width="wrap_content"
@@ -290,7 +290,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/secondary"
+        android:background="@drawable/primary_round"
         android:text="="
         android:id="@+id/pauseResumeButton"
         android:layout_alignParentBottom="true"

@@ -1,5 +1,8 @@
 package com.cpsc441.project.dutchblitz.GameLogic;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.cpsc441.project.dutchblitz.Activities.GameScreenActivity;
 
 /**
@@ -9,11 +12,14 @@ public class MoveRequest implements Runnable {
 
     private boolean terminated = false;
     private Card myCard;
-    private int placeIndex;
+    private int placeIndex = -1;
     GameScreenActivity game;
 
-    public MoveRequest(GameScreenActivity gsa){
-        game = gsa;
+    private boolean moveAccepted = false;
+    Context context;
+
+    public MoveRequest(Context c) {
+        context = c;
     }
 
     public void endGame(){
@@ -27,6 +33,7 @@ public class MoveRequest implements Runnable {
     public void resetCard(){
         myCard = null;
     }
+
     public void setPlaceIndex(int i){
         System.out.println("Setting new Index");
         placeIndex = i;
@@ -35,11 +42,35 @@ public class MoveRequest implements Runnable {
         placeIndex = -1;
     }
 
+    public boolean getMoveAccepted() {
+        return moveAccepted;
+    }
+
+    public Card getMyCard() {
+        return myCard;
+    }
+
+    public int getPlaceIndex() {
+        return placeIndex;
+    }
+
     @Override
     public void run() {
         while(!terminated){
             if(myCard != null && placeIndex != -1){
                 System.out.println("Both values set");
+
+                moveAccepted = true;
+
+                Intent intent = new Intent();
+                intent.setAction(GameScreenActivity.REFRESH_ACTIVITY);
+                context.sendBroadcast(intent);
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 //Unselect buttons
                 //Send Message to Server
