@@ -195,6 +195,9 @@ public class LoginActivity extends Activity {
             Log.d("Android: ", "Exchange done");
             try {
                 sock.close();
+                Log.d("SOCKET IS: ", "CLOSED");
+                //in.close();
+                //out.close();
             }
             catch (IOException e) {
                 e.printStackTrace();
