@@ -145,6 +145,7 @@ public class WaitingRoomActivity extends Activity {
 
     public void createChatWindowFrag(View view) {
         stopWaitingRoomService();
+        unregisterReceiver(bcast);
 
         Bundle bundle = new Bundle();
         bundle.putString("username", mePlayerUsername);

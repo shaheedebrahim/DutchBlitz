@@ -47,7 +47,8 @@ public class ChatFragment extends DialogFragment {
     private BroadcastReceiver bcast = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             Log.d("WROOM: ", "RECEIVED");
-            if (intent.getAction().equals(CHAT_ACTIVITY)) {
+            if (intent.getStringExtra("a").equals("chat")) {
+                Log.d("CHAT: ", "CHAT MESSAGE RECEIVED");
                 String uname = intent.getStringExtra("username");
                 String message = intent.getStringExtra("message");
                 username = uname;
@@ -74,10 +75,6 @@ public class ChatFragment extends DialogFragment {
 
         Intent messIntent = new Intent(getActivity().getApplicationContext(), ChatService.class);
         getActivity().startService(messIntent);
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(CHAT_ACTIVITY);
-        getActivity().registerReceiver(bcast, filter);
 
         builder.setView(rootView)
                 .setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
@@ -119,6 +116,14 @@ public class ChatFragment extends DialogFragment {
             adapter.notifyDataSetChanged();
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(CHAT_ACTIVITY);
+        getActivity().getApplicationContext().registerReceiver(bcast, filter);
     }
 
     @Override

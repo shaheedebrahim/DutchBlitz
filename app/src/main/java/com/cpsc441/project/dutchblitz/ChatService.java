@@ -39,6 +39,7 @@ public class ChatService extends IntentService {
                 String uname = in.readLine();
                 Intent intenti = new Intent();
                 intenti.setAction(ChatFragment.CHAT_ACTIVITY);
+                intenti.putExtra("a", "chat");
                 intenti.putExtra("username", uname);
                 intenti.putExtra("message", message);
                 sendBroadcast(intenti);
