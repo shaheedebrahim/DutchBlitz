@@ -36,7 +36,7 @@ public class WaitingRoomActivity extends Activity {
     String id;
     String roomName;
 
-    public boolean startGameSuccess = false;
+    public static boolean startGameSuccess = false;
 
     public static String JOIN_ACTIVITY = "com.domain.action.JOIN_UI";
     private BroadcastReceiver bcast = new BroadcastReceiver() {
@@ -112,12 +112,12 @@ public class WaitingRoomActivity extends Activity {
         frag.show(getFragmentManager(), "ChatFrag");
     }
 
-    /*@Override
+    @Override
     public void onDestroy() {
 
     }
 
-    public static class StartGameTask extends AsyncTask<String, Void, Void> {
+    /*public static class StartGameTask extends AsyncTask<String, Void, Void> {
         final int PACKET_SIZE = 64;
 
         private Socket sock = null;
@@ -178,7 +178,7 @@ public class WaitingRoomActivity extends Activity {
             Log.d("Android: ", "Create Room");
 
             if (!resp.equals("0")) {
-                createSuccess = true;
+                startGameSuccess = true;
             }
 
             lock.unlock();

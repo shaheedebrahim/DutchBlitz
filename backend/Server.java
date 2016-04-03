@@ -199,6 +199,7 @@ public class Server {
                                         ArrayList<Integer> playerList = gameList.get(activePlayers.get(fields[2]));
                                         for (int i = 0; i < playerList.size(); i++) {
                                             send(cchannel, inBuffer, uNames.get(playerList.get(i)));
+                                            System.out.println("Sending " + uNames.get(playerList.get(i)));
                                         }
                                         send(cchannel, inBuffer, "0");
                                     }
