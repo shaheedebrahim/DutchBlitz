@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class WaitingRoomActivity extends Activity {
 
@@ -37,6 +38,8 @@ public class WaitingRoomActivity extends Activity {
     String roomName;
 
     public static boolean startGameSuccess = false;
+    public static final ReentrantLock lock = new ReentrantLock();
+    public static Socket sock;
 
     public static String JOIN_ACTIVITY = "com.domain.action.JOIN_UI";
     private BroadcastReceiver bcast = new BroadcastReceiver() {
@@ -74,14 +77,35 @@ public class WaitingRoomActivity extends Activity {
         filter.addAction(JOIN_ACTIVITY);
         this.registerReceiver(bcast, filter);
 
-        Intent messIntent = new Intent(this, WaitingRoomService.class);
-        messIntent.putExtra("id", id);
-        startService(messIntent);
+        startWaitingRoomService(id, true);
         Log.d("TEST: ", "a;slkdfjlasdjflskdfjlskdfj");
     }
 
+    public void startWaitingRoomService(String id, boolean start) {
+        Intent messIntent = new Intent(this, WaitingRoomService.class);
+        messIntent.putExtra("id", id);
+        if (start) messIntent.putExtra("start", "true");
+        else messIntent.putExtra("start", "false");
+        startService(messIntent);
+    }
 
-    public void addName(String playerName){
+    public void stopWaitingRoomService() {
+        stopService(new Intent(this, WaitingRoomService.class));
+    }
+
+    @Override
+    public void onResume() {
+        startWaitingRoomService(id, false);
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        stopWaitingRoomService();
+        super.onPause();
+    }
+
+    public void addName(String playerName) {
         playerNames.add(playerName);
         adapter.notifyDataSetChanged();
     }
@@ -97,9 +121,23 @@ public class WaitingRoomActivity extends Activity {
     }
 
     public void startGameActivity(View view) {
-        Intent i = new Intent(this, GameScreenActivity.class);
-        i.putExtra("id", id);
-        startActivity(i);
+        new StatusTask("start").execute(id);
+
+        try {
+            Thread.sleep(500);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        lock.lock();
+        if (startGameSuccess) {
+            Intent i = new Intent(this, GameScreenActivity.class);
+            i.putExtra("id", id);
+            startActivity(i);
+            startGameSuccess = false;
+        }
+        lock.unlock();
     }
 
     public void createChatWindowFrag(View view) {
@@ -114,17 +152,28 @@ public class WaitingRoomActivity extends Activity {
 
     @Override
     public void onDestroy() {
-
+        stopWaitingRoomService();
+        new StatusTask("leave").execute(id);
+        try {
+            sock.close();
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+        super.onDestroy();
     }
 
-    /*public static class StartGameTask extends AsyncTask<String, Void, Void> {
+
+    public static class StatusTask extends AsyncTask<String, Void, Void> {
         final int PACKET_SIZE = 64;
 
         private Socket sock = null;
         private DataOutputStream out = null;
         private BufferedReader in = null;
+        private String status;
 
-        public StartGameTask() {
+        public StatusTask(String s) {
+            status = s;
         }
 
         @Override
@@ -151,11 +200,10 @@ public class WaitingRoomActivity extends Activity {
                 e.printStackTrace();
             }
 
-            String body = params[0] + "\n0\n", idm = params[1], resp = "";
-            if (mode.equals("1")) body += username + "\n";
+            String body = status + "\n", idm = params[0];
 
             long header = 0;
-            header = header | 9;
+            header = header | 12;
             header = header << 8;
             header = header | body.length(); header = header << 16;
             header = header | Integer.parseInt(idm);
@@ -164,7 +212,6 @@ public class WaitingRoomActivity extends Activity {
                 // Send credentials to server - IP address is currently hard-coded
                 out.writeBytes(String.valueOf(header) + "\n" + body);
 
-                resp = in.readLine();
             }
             catch (UnknownHostException e) {
                 System.out.println("Attempted to contact unknown host.");
@@ -176,10 +223,6 @@ public class WaitingRoomActivity extends Activity {
             }
 
             Log.d("Android: ", "Create Room");
-
-            if (!resp.equals("0")) {
-                startGameSuccess = true;
-            }
 
             lock.unlock();
 
@@ -196,5 +239,5 @@ public class WaitingRoomActivity extends Activity {
                 e.printStackTrace();
             }
         }
-    }*/
+    }
 }

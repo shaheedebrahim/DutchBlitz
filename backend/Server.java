@@ -23,6 +23,7 @@ public class Server {
 
     private static DatabaseDriver db;
     //private static HashMap<Integer, InetAddress> ipMap = new HashMap<>();
+    private static HashMap<String, Integer> playerIds = new HashMap<>();
     private static HashMap<Integer, String> uNames = new HashMap<>();
     private static HashMap<Integer, SocketChannel> socketMap = new HashMap<>();
     private static HashMap<Integer, String> activePlayers = new HashMap<>();
@@ -137,6 +138,7 @@ public class Server {
                                             Random rand = new Random();
                                             int id = rand.nextInt(65535) + 1;
                                             uNames.put(id, split[1]);
+                                            playerIds.put(split[1], id);
 
                                             bytesSent = send(cchannel, inBuffer, String.valueOf(id));
                                         }
@@ -177,8 +179,25 @@ public class Server {
                                     break;
                                 case 2:
                                     // chat
+                                    String message = split[2];
+                                    if (message.length() >= 2 && message.startsWith("/w")) {
+                                        String[] parts = message.split(" ", 3);
+                                        if (playerIds.containsKey(parts[1])) {
+                                            SocketChannel chan = socketMap.get(playerIds.get(parts[1]));
+                                            send(chan, inBuffer, "chat");
+                                            send(chan, inBuffer, message);
+                                            send(chan, inBuffer, uNames.get(fields[2]));
+                                        }
+                                    }
+                                    else {
+                                        if (activePlayers.containsKey(fields[2])) {
+                                            ArrayList<Integer> pList = gameList.get(activePlayers.get(fields[2]));
+                                            broadCast(pList, inBuffer, message);
+                                        }
+                                    }
                                     break;
                                 case 3:
+                                    // create account
                                     System.out.println(db);
                                     if(!db.checkExistingUser(split[1])){
                                         db.addNewUser(split[1],split[2]);
@@ -186,23 +205,42 @@ public class Server {
                                         Random rand = new Random();
                                         int id = rand.nextInt(65535) + 1;
                                         uNames.put(id, split[1]);
+                                        playerIds.put(split[1], id);
 
                                         bytesSent = send(cchannel, inBuffer, String.valueOf(id));
                                     }
                                     else bytesSent = send(cchannel, inBuffer, "0");
                                     break;
                                 case 4:
-                                    // game update
-                                    break;
-                                case 5:
+                                    // status messages
                                     if (split[1].equals("request_names")) {
                                         ArrayList<Integer> playerList = gameList.get(activePlayers.get(fields[2]));
                                         for (int i = 0; i < playerList.size(); i++) {
-                                            send(cchannel, inBuffer, uNames.get(playerList.get(i)));
-                                            System.out.println("Sending " + uNames.get(playerList.get(i)));
+                                            if (fields[2] != playerList.get(i)) {
+                                                send(cchannel, inBuffer, uNames.get(playerList.get(i)));
+                                                System.out.println("Sending " + uNames.get(playerList.get(i)));
+                                            }
                                         }
                                         send(cchannel, inBuffer, "0");
                                     }
+                                    else if (split[1].equals("leave")) {
+                                        String game = activePlayers.remove(fields[2]);
+                                        socketMap.get(fields[2]).close();
+                                        socketMap.remove(fields[2]);
+                                        ArrayList<Integer> pList = gameList.get(game);
+                                        if (pList.size() == 1)
+                                            gameList.remove(game);
+                                        else pList.remove(fields[2]);
+                                    }
+                                    else if (split[1].equals("start")) {
+                                        System.out.printf("Number of players: %d\n", gameList.get(activePlayers.get(fields[2])).size());
+                                        if (gameList.get(activePlayers.get(fields[2])).size() > 1)
+                                            send(cchannel, inBuffer, "1");
+                                        else send(cchannel, inBuffer, "0");
+                                    }
+                                    break;
+                                case 5:
+                                    // game update
                                     break;
                                 default:
                                     break;
@@ -238,10 +276,10 @@ public class Server {
         int messType = (int) (h & (7 << (len - 4))) >> (len - 4);
         int bodLength = (int) (h & (Integer.parseInt("11111111", 2) << (len - 12))) >> (len - 12);
         int state = (int) (h & (Integer.parseInt("1111111111111111", 2))) << (len - 28);
-        if (messType == 2) {
+        /*if (messType == 2) {
             int dest = (int) (h & (Integer.parseInt("111111", 2) << (len - 34))) << (len - 34);
             return new int[] {messType, bodLength, state, dest};
-        }
+        }*/
 
         return new int[] {messType, bodLength, state};
     }

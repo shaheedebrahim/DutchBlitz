@@ -109,6 +109,12 @@ public class PlayerHomeActivity extends Activity {
         observeFragment.show(getFragmentManager(), "Frag");
     }
 
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+    }
+
     public static class JoinRoomFragment extends DialogFragment {
 
         EditText roomName;

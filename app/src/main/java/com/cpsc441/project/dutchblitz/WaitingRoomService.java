@@ -16,7 +16,6 @@ import java.net.UnknownHostException;
 import java.nio.Buffer;
 
 public class WaitingRoomService extends IntentService {
-    private Socket sock;
 
     public WaitingRoomService() {
         super("WaitingRoomService");
@@ -25,39 +24,41 @@ public class WaitingRoomService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         try {
             Log.d("WAITINGSERVICE: ", "INITIALIZED");
-            sock = new Socket("162.246.157.144", 1234);
+            if (WaitingRoomActivity.sock == null)
+                WaitingRoomActivity.sock = new Socket("162.246.157.144", 1234);
             Log.d("Server: ", "START");
-            DataOutputStream out = new DataOutputStream(sock.getOutputStream());
-            BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-            String line = "", body = "request_names\n", idm = intent.getStringExtra("id");
+            DataOutputStream out = new DataOutputStream(WaitingRoomActivity.sock.getOutputStream());
+            BufferedReader in = new BufferedReader(new InputStreamReader(WaitingRoomActivity.sock.getInputStream()));
+            String line = "", body = "request_names\n", idm = intent.getStringExtra("id"), start = intent.getStringExtra("start");
 
-            long header = 0;
-            header = header | 12;
-            header = header << 8;
-            header = header | body.length(); header = header << 16;
-            header = header | Integer.parseInt(idm);
+            if (start.equals("true")) {
+                long header = 0;
+                header = header | 12;
+                header = header << 8;
+                header = header | body.length();
+                header = header << 16;
+                header = header | Integer.parseInt(idm);
 
-            try {
-                // Send credentials to server - IP address is currently hard-coded
-                out.writeBytes(String.valueOf(header) + "\n" + body);
-                String resp = "";
-                Log.d("WAITINGSERVICE: ", "STARTED");
-                while ((resp  = in.readLine()) != null && !(resp).equals("0")) {
-                    Intent intenti = new Intent();
-                    intenti.setAction(WaitingRoomActivity.JOIN_ACTIVITY);
-                    intenti.putExtra("username", resp);
-                    Log.d("WAITINGSERVICE-ADD: ", resp);
-                    sendBroadcast(intenti);
+                try {
+                    // Send credentials to server - IP address is currently hard-coded
+                    out.writeBytes(String.valueOf(header) + "\n" + body);
+                    String resp = "";
+                    Log.d("WAITINGSERVICE: ", "STARTED");
+                    while ((resp = in.readLine()) != null && !(resp).equals("0")) {
+                        Intent intenti = new Intent();
+                        intenti.setAction(WaitingRoomActivity.JOIN_ACTIVITY);
+                        intenti.putExtra("username", resp);
+                        Log.d("WAITINGSERVICE-ADD: ", resp);
+                        sendBroadcast(intenti);
+                    }
+                    Log.d("WAITINGSERVICE: ", "FINISHED");
+                } catch (UnknownHostException e) {
+                    System.out.println("Attempted to contact unknown host.");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    System.out.println("Failed to send packet.");
+                    e.printStackTrace();
                 }
-                Log.d("WAITINGSERVICE: ", "FINISHED");
-            }
-            catch (UnknownHostException e) {
-                System.out.println("Attempted to contact unknown host.");
-                e.printStackTrace();
-            }
-            catch (IOException e) {
-                System.out.println("Failed to send packet.");
-                e.printStackTrace();
             }
 
             while ((line = in.readLine()) != null && !(line).equals("end")) {
@@ -73,16 +74,6 @@ public class WaitingRoomService extends IntentService {
             e.printStackTrace();
         }
         catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        try {
-            sock.close();
-        }
-        catch(IOException e) {
             e.printStackTrace();
         }
     }
