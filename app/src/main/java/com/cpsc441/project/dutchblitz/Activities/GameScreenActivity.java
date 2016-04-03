@@ -2,7 +2,10 @@ package com.cpsc441.project.dutchblitz.Activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -72,10 +75,75 @@ public class GameScreenActivity extends Activity {
         setPilesText(myCanadian, canadianPiles);
         setPileColour(myCanadian, canadianPiles);
 
-        mover = new MoveRequest(this);
+        piles[0].setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                game.me.flip();
+                updatePiles();
+                return true;
+            }
+        });
+
+        updatePiles();
+        mover = new MoveRequest(getApplicationContext());
         moveRequest = new Thread(mover);
         moveRequest.start();
 
+    }
+
+    private void updatePiles() {
+        myPiles = game.myCards();
+        myCanadian = game.getCanadianPiles();
+        setPilesText(myPiles, piles);
+        setPileColour(myPiles, piles);
+        setPilesText(myCanadian, canadianPiles);
+        setPileColour(myCanadian, canadianPiles);
+    }
+
+    public static String REFRESH_ACTIVITY = "com.domain.action.REFRESH_UI";
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (mover.getMoveAccepted()) {
+                game.moveCard(mover.getMyCard(), mover.getPlaceIndex());
+                updatePiles();
+            }
+            clearSelections();
+            mover.resetCard();
+            mover.resetPlaceIndex();
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(REFRESH_ACTIVITY);
+        this.registerReceiver(broadcastReceiver, filter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.unregisterReceiver(broadcastReceiver);
+    }
+
+    public void woodPileFlip(View view) {
+        game.me.flip();
+        updatePiles();
+    }
+
+    public void clearSelections() {
+        for (int i = 0; i < canadianPiles.length; i++) {
+            canadianPiles[i].setChecked(false);
+            setButtonColour(myCanadian[i], canadianPiles[i]);
+        }
+        for (int i = 0; i < piles.length; i++) {
+            piles[i].setChecked(false);
+            setButtonColour(myPiles[i], piles[i]);
+        }
     }
 
     public void mineSelected(View view) {

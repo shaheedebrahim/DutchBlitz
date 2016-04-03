@@ -10,10 +10,8 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.Buffer;
 
 public class WaitingRoomService extends IntentService {
 
@@ -67,6 +65,7 @@ public class WaitingRoomService extends IntentService {
                 intenti.setAction(WaitingRoomActivity.JOIN_ACTIVITY);
                 intenti.putExtra("username", line);
                 sendBroadcast(intenti);
+
             }
         }
         catch (UnknownHostException e) {
