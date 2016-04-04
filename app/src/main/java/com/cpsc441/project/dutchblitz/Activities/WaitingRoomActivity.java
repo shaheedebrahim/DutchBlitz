@@ -96,14 +96,14 @@ public class WaitingRoomActivity extends Activity {
     @Override
     public void onResume() {
         Log.d("WAITINGSERVICE: ", "RESUME");
-        startWaitingRoomService(id, false);
+        //startWaitingRoomService(id, false);
         super.onResume();
     }
 
     @Override
     public void onPause() {
         Log.d("WAITINGSERVICE: ", "PAUSE");
-        stopWaitingRoomService();
+        //stopWaitingRoomService();
         super.onPause();
     }
 
@@ -144,7 +144,7 @@ public class WaitingRoomActivity extends Activity {
     }
 
     public void createChatWindowFrag(View view) {
-        stopWaitingRoomService();
+        //stopWaitingRoomService();
         unregisterReceiver(bcast);
 
         Bundle bundle = new Bundle();

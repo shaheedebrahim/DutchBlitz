@@ -127,7 +127,8 @@ public class Server {
 
                             int[] fields = parseHeader(Long.parseLong(split[0]));
                             System.out.printf("%d %d %d\n", fields[0], fields[1], fields[2]);
-
+                            //Kendra
+                            //inBuffer.flip();
                             switch (fields[0]) {
                                 case 0:
                                     //login
@@ -191,10 +192,13 @@ public class Server {
                                     else {
                                         if (activePlayers.containsKey(fields[2])) {
                                             ArrayList<Integer> pList = gameList.get(activePlayers.get(fields[2]));
-                                            //broadCast(pList, inBuffer, "chat\n" + message + "\n" + uNames.get(fields[2]));
-                                            broadCast(pList, inBuffer, "chat");
+                                            /*send(socketMap.get(fields[2]), inBuffer, "chat");
+                                            send(socketMap.get(fields[2]), inBuffer, message);
+                                            send(socketMap.get(fields[2]), inBuffer, uNames.get(fields[2]));*/
+                                            broadCast(pList, inBuffer, "chat\n" + message + "\n" + uNames.get(fields[2]));
+                                            /*broadCast(pList, inBuffer, "chat");
                                             broadCast(pList, inBuffer, message);
-                                            broadCast(pList, inBuffer, uNames.get(fields[2]));
+                                            broadCast(pList, inBuffer, uNames.get(fields[2]));*/
                                         }
                                     }
                                     break;
@@ -298,6 +302,7 @@ public class Server {
     private static int send(SocketChannel cchannel, ByteBuffer buff, String message) throws IOException {
         buff = ByteBuffer.allocateDirect(BUFFERSIZE);
         buff.put((message + "\n").getBytes());
+        //Kendra
         buff.flip();
         return cchannel.write(buff);
     }
