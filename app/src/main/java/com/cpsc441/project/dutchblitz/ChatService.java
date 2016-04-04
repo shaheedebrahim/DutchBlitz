@@ -1,24 +1,16 @@
 package com.cpsc441.project.dutchblitz;
 
 import android.app.IntentService;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
-import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.cpsc441.project.dutchblitz.Activities.WaitingRoomActivity;
 import com.cpsc441.project.dutchblitz.Fragments.ChatFragment;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.UnknownHostException;
 
 
 public class ChatService extends IntentService {
@@ -31,8 +23,6 @@ public class ChatService extends IntentService {
         try {
             Log.d(":SLD:FLKSJD:LFKJ", ";alskdjf;laskdjf;laksdjf;laskdjf;laskdjf;laskdfj");
             BufferedReader in = new BufferedReader(new InputStreamReader(WaitingRoomActivity.sock.getInputStream()));
-
-            String line;
 
             while (in.readLine() != null) {
 
