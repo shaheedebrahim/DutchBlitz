@@ -286,7 +286,7 @@ public class GameScreenActivity extends Activity {
                 e.printStackTrace();
             }
 
-            String body = status + "\n", idm = params[0];
+            String body = "win\n", idm = params[0];
 
             long header = 0;
             header = header | 12;

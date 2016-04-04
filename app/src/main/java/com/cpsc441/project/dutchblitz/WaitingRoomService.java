@@ -75,6 +75,9 @@ public class WaitingRoomService extends IntentService {
                     intenti.putExtra("message", message);
                     sendBroadcast(intenti);
                 }
+                else if (line.equals("win")) {
+                    
+                }
                 else {
                     Intent intenti = new Intent();
                     intenti.setAction(WaitingRoomActivity.JOIN_ACTIVITY);

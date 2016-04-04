@@ -269,6 +269,11 @@ public class Server {
                                         }
                                         send(cchannel, inBuffer, "0");
                                     }
+                                    else if (split[1].equals("win")) {
+                                        System.out.println("Game ended");
+                                        ArrayList<Integer> pList = gameList.get(activePlayers.get(fields[2]));
+                                        broadCast(pList, inBuffer, "win");
+                                    }
                                     break;
                                 case 5:
                                     // game update
