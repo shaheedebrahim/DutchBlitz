@@ -21,6 +21,7 @@ import java.util.*;
 public class Server {
     public static int BUFFERSIZE = 32;
 
+    private static ServerSideGame = ssg;
     private static DatabaseDriver db;
     //private static HashMap<Integer, InetAddress> ipMap = new HashMap<>();
     private static HashMap<String, Integer> playerIds = new HashMap<>();
@@ -28,6 +29,7 @@ public class Server {
     private static HashMap<Integer, SocketChannel> socketMap = new HashMap<>();
     private static HashMap<Integer, String> activePlayers = new HashMap<>();
     private static HashMap<String, ArrayList<Integer>> gameList = new HashMap<>();
+    private static HashMap<Integer, Integer> playerIndices = new HashMap<>();
 
     public static void main(String args[]) throws Exception
     {
@@ -241,11 +243,18 @@ public class Server {
                                         else pList.remove(fields[2]);
                                     }
                                     else if (split[1].equals("start")) {
-                                        System.out.println(gameList.get(activePlayers.get(fields[2])));
-                                        System.out.printf("Number of players: %d\n", gameList.get(activePlayers.get(fields[2])).size());
-                                        if (gameList.get(activePlayers.get(fields[2])).size() > 1)
-                                            send(cchannel, inBuffer, "1");
-                                        else send(cchannel, inBuffer, "0");
+                                        int numPlayers = gameList.get(activePlayers.get(fields[2])).size();
+                                        System.out.printf("Number of players: %d\n", numPlayers);
+                                        ssg = new ServerSideGame(numPlayers);
+                                        if (numPlayers > 1) {
+                                            ArrayList<Integer> pList = gameList.get(activePlayers.get(fields[2]));
+                                            for (int i = 0; i < pList.size(); i++) {
+                                                playerIndices.put(pList.get(i), i);
+                                            }
+                                            broadCast(gameList.get(pList, inBuffer, "start");
+                                            //send(cchannel, inBuffer, "1");
+                                        }
+                                        //else send(cchannel, inBuffer, "0");
                                     }
                                     else if (split[1].equals("logout")) {
                                         System.out.printf("Logout %s\n", playerIds.get(uNames.get(fields[2])));
@@ -256,13 +265,16 @@ public class Server {
                                         System.out.println("Player list request");
                                         for (Map.Entry<Integer, String> entry : uNames.entrySet()) {
                                             send(cchannel, inBuffer, entry.getValue());
-                                            System.out.printf("Sending %d\n", entry.getValue());
+                                            System.out.printf("Sending %s\n", entry.getValue());
                                         }
                                         send(cchannel, inBuffer, "0");
                                     }
                                     break;
                                 case 5:
                                     // game update
+                                    System.out.println("Game update request");
+                                    String[] info = split[1].split("");
+                                    if (ssg.playCardRequest(new Card(Integer.parseInt(info[0]), Integer.parseInt(info[1]), playerIndices(fields[2])), Integer.parseInt(info[2])));
                                     break;
                                 default:
                                     break;

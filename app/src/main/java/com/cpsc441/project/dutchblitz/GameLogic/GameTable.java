@@ -41,7 +41,7 @@ public class GameTable {
 		return temp;
 	}
 
-    public void moveCard(Card c, int index) {
+    public boolean moveCard(Card c, int index) {
         int pile = -1;
         for (int i = 0; i < me.myCards().length; i++) {
             if (c.colour == (me.myCards()[i].colour) && c.value == me.myCards()[i].value) {
@@ -52,8 +52,9 @@ public class GameTable {
 
         if (pile != -1) {
             canadianPiles.get(index).push(c);
-            me.removeCard(pile);
+            return me.removeCard(pile);
         }
+		return true;
     }
 
 	//Get user input.
