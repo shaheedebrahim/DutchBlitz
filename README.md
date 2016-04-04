@@ -1,5 +1,19 @@
-CPSC 441 Networking Project
+#CPSC 441 Networking Project
 
-This version includes a homescreen that has been developed, please note that the buttons do not do anything as of yet. 
+This project is a modified version of DutchBlitz written by
 
-To compile and execute you will need a version of Android Studio. 
+Sean Ovens
+Kendra Wannamaker
+Shaheed Ebrahim
+
+To run the app follow these steps 
+  1. Install android studio or intellij with the android plugin
+  2. Clone the project from the repo
+  3. Run the emulator with a phone that has a minimum gradle version of 21
+  4. SSH into the ubuntu server
+  5. CD into app/
+  6. Run the Server by typing command:
+        java -cp mysql....(jar file):. Server 1234
+  7. Enjoy!
+  
+For any questions please email shaheed_ebrahim@hotmail.com
