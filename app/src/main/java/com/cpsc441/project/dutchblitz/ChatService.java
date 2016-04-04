@@ -31,9 +31,9 @@ public class ChatService extends IntentService {
         try {
             Log.d(":SLD:FLKSJD:LFKJ", ";alskdjf;laskdjf;laksdjf;laskdjf;laskdjf;laskdfj");
             BufferedReader in = new BufferedReader(new InputStreamReader(WaitingRoomActivity.sock.getInputStream()));
-            String line = "";
+            Log.d("CHAT SERVICE: ", "READY TO READ");
 
-            while ((line = in.readLine()) != null && !(line).equals("end")) {
+            while (in.readLine() != null) {
                 Log.d("CHAT SERVICE: ", "MESSAGE RECEIVED");
                 String message = in.readLine();
                 String uname = in.readLine();

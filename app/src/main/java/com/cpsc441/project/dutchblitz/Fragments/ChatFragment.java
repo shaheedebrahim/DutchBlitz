@@ -150,7 +150,6 @@ public class ChatFragment extends DialogFragment {
                     Log.d("CHAT SEND BUTTON: ", "PRESSED");
                     String message = chatText.getText().toString();
                     username = playerName;
-                    addMessage(message);
 
                     new ChatTask(message).execute(idm);
                     chatText.setText("");

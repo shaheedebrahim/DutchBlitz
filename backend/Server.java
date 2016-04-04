@@ -191,6 +191,7 @@ public class Server {
                                     else {
                                         if (activePlayers.containsKey(fields[2])) {
                                             ArrayList<Integer> pList = gameList.get(activePlayers.get(fields[2]));
+                                            //broadCast(pList, inBuffer, "chat\n" + message + "\n" + uNames.get(fields[2]));
                                             broadCast(pList, inBuffer, "chat");
                                             broadCast(pList, inBuffer, message);
                                             broadCast(pList, inBuffer, uNames.get(fields[2]));
