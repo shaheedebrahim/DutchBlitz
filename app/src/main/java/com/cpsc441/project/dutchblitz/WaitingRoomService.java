@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.cpsc441.project.dutchblitz.Activities.WaitingRoomActivity;
+import com.cpsc441.project.dutchblitz.Fragments.ChatFragment;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -64,11 +65,22 @@ public class WaitingRoomService extends IntentService {
 
             while ((line = in.readLine()) != null && !(line).equals("end")) {
                 // TODO: Process message body and broadcast to client
-                Intent intenti = new Intent();
-                intenti.setAction(WaitingRoomActivity.JOIN_ACTIVITY);
-                intenti.putExtra("username", line);
-                sendBroadcast(intenti);
-
+                if (line.equals("chat")) {
+                    String message = in.readLine();
+                    String uname = in.readLine();
+                    Intent intenti = new Intent();
+                    intenti.setAction(ChatFragment.CHAT_ACTIVITY);
+                    intenti.putExtra("a", "chat");
+                    intenti.putExtra("username", uname);
+                    intenti.putExtra("message", message);
+                    sendBroadcast(intenti);
+                }
+                else {
+                    Intent intenti = new Intent();
+                    intenti.setAction(WaitingRoomActivity.JOIN_ACTIVITY);
+                    intenti.putExtra("username", line);
+                    sendBroadcast(intenti);
+                }
             }
         }
         catch (UnknownHostException e) {
