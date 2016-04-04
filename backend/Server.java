@@ -252,6 +252,14 @@ public class Server {
                                         playerIds.remove(uNames.get(fields[2]));
                                         uNames.remove(fields[2]);
                                     }
+                                    else if (split[1].equals("player_list")) {
+                                        System.out.println("Player list request");
+                                        for (Map.Entry<Integer, String> entry : uNames.entrySet()) {
+                                            send(cchannel, inBuffer, entry.getValue());
+                                            System.out.printf("Sending %d\n", entry.getValue());
+                                        }
+                                        send(cchannel, inBuffer, "0");
+                                    }
                                     break;
                                 case 5:
                                     // game update
