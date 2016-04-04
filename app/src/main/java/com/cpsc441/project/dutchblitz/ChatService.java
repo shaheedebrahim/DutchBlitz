@@ -31,13 +31,17 @@ public class ChatService extends IntentService {
         try {
             Log.d(":SLD:FLKSJD:LFKJ", ";alskdjf;laskdjf;laksdjf;laskdjf;laskdjf;laskdfj");
             BufferedReader in = new BufferedReader(new InputStreamReader(WaitingRoomActivity.sock.getInputStream()));
-            Log.d("CHAT SERVICE: ", "READY TO READ");
+
+            String line;
 
             while (in.readLine() != null) {
+
                 Log.d("CHAT SERVICE: ", "MESSAGE RECEIVED");
                 String message = in.readLine();
                 String uname = in.readLine();
+
                 Intent intenti = new Intent();
+
                 intenti.setAction(ChatFragment.CHAT_ACTIVITY);
                 intenti.putExtra("a", "chat");
                 intenti.putExtra("username", uname);

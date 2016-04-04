@@ -156,6 +156,7 @@ public class WaitingRoomActivity extends Activity {
         frag.show(getFragmentManager(), "ChatFrag");
     }
 
+
     @Override
     public void onDestroy() {
         stopWaitingRoomService();

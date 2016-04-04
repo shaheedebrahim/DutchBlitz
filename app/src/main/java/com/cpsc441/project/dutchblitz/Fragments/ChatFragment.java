@@ -150,6 +150,7 @@ public class ChatFragment extends DialogFragment {
                     Log.d("CHAT SEND BUTTON: ", "PRESSED");
                     String message = chatText.getText().toString();
                     username = playerName;
+                    //addMessage(message);
 
                     new ChatTask(message).execute(idm);
                     chatText.setText("");
@@ -182,7 +183,7 @@ public class ChatFragment extends DialogFragment {
             try {
                 sock = new Socket("162.246.157.144", 1234);
                 Log.d("SOCKET STATISTICS: ", String.valueOf(WaitingRoomActivity.sock.getLocalPort()));
-                out = new DataOutputStream(sock.getOutputStream());
+                out = new DataOutputStream(WaitingRoomActivity.sock.getOutputStream());
             }
             catch (UnknownHostException e) {
                 System.out.println("Failed to create client socket.");
