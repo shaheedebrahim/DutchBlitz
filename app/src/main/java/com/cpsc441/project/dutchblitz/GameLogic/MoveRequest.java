@@ -67,7 +67,7 @@ public class MoveRequest implements Runnable {
         while(!terminated){
             if(myCard != null && placeIndex != -1){
                 try {
-                    Socket sock = new Socket("162.246.157.144", 1234);
+                    /*Socket sock = new Socket("162.246.157.144", 1234);
                     DataOutputStream out = new DataOutputStream(sock.getOutputStream());
                     BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 
@@ -87,7 +87,8 @@ public class MoveRequest implements Runnable {
 
                     String resp = in.readLine();
                     if (resp.equals("1")) moveAccepted = true;
-
+                    */
+                    moveAccepted = true;
                     Intent intent = new Intent();
                     intent.setAction(GameScreenActivity.REFRESH_ACTIVITY);
                     context.sendBroadcast(intent);
@@ -97,9 +98,9 @@ public class MoveRequest implements Runnable {
                 catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                catch (IOException e) {
+                /*catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
 
                 //Unselect buttons
                 //Send Message to Server

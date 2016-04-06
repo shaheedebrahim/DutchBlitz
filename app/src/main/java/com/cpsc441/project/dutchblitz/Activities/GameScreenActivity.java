@@ -100,6 +100,11 @@ public class GameScreenActivity extends Activity {
 
     }
 
+
+    public void updateCanadian(Card newCard, int index){
+        game.updateCanadian(newCard, index);
+        updatePiles();
+    }
     private void updatePiles() {
         myPiles = game.myCards();
         myCanadian = game.getCanadianPiles();
@@ -110,18 +115,31 @@ public class GameScreenActivity extends Activity {
     }
 
     public static String REFRESH_ACTIVITY = "com.domain.action.REFRESH_UI";
+    public static String WIN_ACTIVITY = "com.domain.action.WIN_UI";
+    public static String UPDATE_ACTIVITY = "com.domain.action.WIN_UI";
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (mover.getMoveAccepted()) {
-                if (!game.moveCard(mover.getMyCard(), mover.getPlaceIndex()))
-                    new WinTask().execute(id);
-                updatePiles();
+            if (/*intent.getAction().equals(REFRESH_ACTIVITY)*/true) {
+                Log.d("MOVER: ", "TEST");
+                if (mover.getMoveAccepted()) {
+                    if (!game.moveCard(mover.getMyCard(), mover.getPlaceIndex()))
+                        new WinTask().execute(id);
+                    updatePiles();
+                }
+                clearSelections();
+                mover.resetCard();
+                mover.resetPlaceIndex();
             }
-            clearSelections();
-            mover.resetCard();
-            mover.resetPlaceIndex();
+            else if (intent.getAction().equals(UPDATE_ACTIVITY)) {
+                int colour = Integer.parseInt(intent.getStringExtra("colour"));
+                int value = Integer.parseInt(intent.getStringExtra("value"));
+                int index = Integer.parseInt(intent.getStringExtra("index"));
+                int identifier = Integer.parseInt(intent.getStringExtra("identifier"));
+                Card newCard = new Card(colour, value, identifier);
+                updateCanadian(newCard, index);
+            }
         }
     };
 

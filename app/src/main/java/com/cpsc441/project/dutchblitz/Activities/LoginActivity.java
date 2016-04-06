@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class LoginActivity extends Activity {
@@ -140,12 +143,18 @@ public class LoginActivity extends Activity {
         protected Void doInBackground(String... params) {
             lock.lock();
             Log.d("init", "test");
+            String hash = "";
             try {
                 sock = new Socket("162.246.157.144", 1234);
                 Log.d("init: ", sock.toString());
                 out = new DataOutputStream(sock.getOutputStream());
                 in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
                 Log.d("Init: ", "Success");
+
+                MessageDigest digest = MessageDigest.getInstance("SHA");
+                digest.update(params[1].getBytes());
+                hash = new String(digest.digest()).replaceAll("\n", "a");
+                Log.d("CLIENT PASSWORD: ", hash);
             }
             catch (UnknownHostException e) {
                 System.out.println("Failed to create client socket.");
@@ -153,6 +162,9 @@ public class LoginActivity extends Activity {
             }
             catch (IOException e) {
                 System.out.println("Socket creation caused error.");
+                e.printStackTrace();
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
 

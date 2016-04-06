@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import com.cpsc441.project.dutchblitz.Activities.GameScreenActivity;
 import com.cpsc441.project.dutchblitz.Activities.WaitingRoomActivity;
 import com.cpsc441.project.dutchblitz.Fragments.ChatFragment;
 
@@ -75,8 +76,20 @@ public class WaitingRoomService extends IntentService {
                     intenti.putExtra("message", message);
                     sendBroadcast(intenti);
                 }
+                else if (line.equals("update")) {
+                    String[] update = in.readLine().split("");
+                    Intent intenti = new Intent();
+                    intenti.setAction(GameScreenActivity.UPDATE_ACTIVITY);
+                    intenti.putExtra("colour", update[0]);
+                    intenti.putExtra("value", update[1]);
+                    intenti.putExtra("index", update[2]);
+                    intenti.putExtra("identifier", update[3]);
+                    sendBroadcast(intenti);
+                }
                 else if (line.equals("win")) {
-                    
+                    Intent intenti = new Intent();
+                    intenti.setAction(GameScreenActivity.WIN_ACTIVITY);
+
                 }
                 else {
                     Intent intenti = new Intent();

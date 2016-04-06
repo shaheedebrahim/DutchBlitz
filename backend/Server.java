@@ -1,9 +1,3 @@
-/*
- * A simple TCP select server that accepts multiple connections and echo message back to the clients
- * For use in CPSC 441 lectures
- * Instructor: Prof. Mea Wang
- */
-
 import java.io.*;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -21,7 +15,7 @@ import java.util.*;
 public class Server {
     public static int BUFFERSIZE = 32;
 
-    private static ServerSideGame = ssg;
+    private static ServerSideGame ssg;
     private static DatabaseDriver db;
     //private static HashMap<Integer, InetAddress> ipMap = new HashMap<>();
     private static HashMap<String, Integer> playerIds = new HashMap<>();
@@ -251,7 +245,7 @@ public class Server {
                                             for (int i = 0; i < pList.size(); i++) {
                                                 playerIndices.put(pList.get(i), i);
                                             }
-                                            broadCast(gameList.get(pList, inBuffer, "start");
+                                            broadCast(pList, inBuffer, "start");
                                             //send(cchannel, inBuffer, "1");
                                         }
                                         //else send(cchannel, inBuffer, "0");
@@ -279,7 +273,11 @@ public class Server {
                                     // game update
                                     System.out.println("Game update request");
                                     String[] info = split[1].split("");
-                                    if (ssg.playCardRequest(new Card(Integer.parseInt(info[0]), Integer.parseInt(info[1]), playerIndices(fields[2])), Integer.parseInt(info[2])));
+                                    int playerId = playerIndices.get(fields[2]);
+                                    if (ssg.playCardRequest(new Card(Integer.parseInt(info[0]), Integer.parseInt(info[1]), playerId), Integer.parseInt(info[2]))) {
+                                        ArrayList<Integer> pList = gameList.get(activePlayers.get(fields[2]));
+                                        broadCast(pList, inBuffer, "update\n" + split[1] + String.valueOf(playerId));
+                                    }
                                     break;
                                 default:
                                     break;

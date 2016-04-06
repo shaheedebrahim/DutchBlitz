@@ -33,6 +33,10 @@ public class GameTable {
 		return temp;
 	}
 
+
+	public void updateCanadian(Card currentCards, int index){
+			canadianPiles.get(index).add(currentCards);
+	}
 	public Card[] getCanadianPiles(){
 		Card[] temp = new Card[12];
 		for(int i = 0; i < NUMBER_OF_CANADIAN_PILES; i++){
